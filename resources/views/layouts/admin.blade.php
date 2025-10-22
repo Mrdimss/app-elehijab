@@ -37,7 +37,7 @@
 
                 <div class="section-menu-left">
                     <div class="box-logo">
-                        <a href="{{route('admin.index')}}" id="site-logo-inner">
+                        <a href="{{route('home.index')}}" id="site-logo-inner">
                             <img class="" id="logo_header_1" alt="" src="{{ asset('images/logo/logo.png') }}"
                                 data-light="{{ asset('images/logo/logo.png') }}" data-dark="{{ asset('images/logo/logo.png') }}">
                         </a>
@@ -66,7 +66,7 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-item">
-                                            <a href="{{route('admin.product.add')}}" class="">
+                                            <a href="{{route('admin.product.add')}}" class="icon">
                                                 <div class="text">Add Product</div>
                                             </a>
                                         </li>
@@ -79,7 +79,7 @@
                                 </li>
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
-                                        <div class="icon"><i class="icon-layers"></i></div>
+                                        <div class="icon"><i class="icon-tag"></i></div>
                                         <div class="text">Brand</div>
                                     </a>
                                     <ul class="sub-menu">
@@ -116,7 +116,7 @@
 
                                 <li class="menu-item has-children">
                                     <a href="javascript:void(0);" class="menu-item-button">
-                                        <div class="icon"><i class="icon-file-plus"></i></div>
+                                        <div class="icon"><i class="icon-file-text"></i></div>
                                         <div class="text">Order</div>
                                     </a>
                                     <ul class="sub-menu">
@@ -139,8 +139,8 @@
                                     </a>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="coupons.html" class="">
-                                        <div class="icon"><i class="icon-grid"></i></div>
+                                    <a href="{{ route('admin.coupons') }}" class="">
+                                        <div class="icon"><i class="icon-check-circle"></i></div>
                                         <div class="text">Coupons</div>
                                     </a>
                                 </li>
@@ -163,7 +163,7 @@
                                     <form method="POST" action="{{route('logout')}}" id="logout-form">
                                         @csrf
                                     <a href="{{route('logout')}}" class="" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                        <div class="icon"><i class="icon-settings"></i></div>
+                                        <div class="icon"><i class="icon-log-out"></i></div>
                                         <div class="text">Logout</div>
                                     </a>
                                     </form>

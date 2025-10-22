@@ -5,7 +5,7 @@
     <section class="shop-checkout container">
       <h2 class="page-title">Wishlist</h2>
       <div class="shopping-cart">
-        @if(Cart::instance('wishlist')->content()->count()>0)
+        @if(Cart::instance('wishlist')->content()->count() > 0)
         <div class="cart-table__wrapper">
           <table class="cart-table">
             <thead>
