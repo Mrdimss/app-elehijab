@@ -59,8 +59,8 @@
                                         <td>{{ $coupon->id }}</td>
                                         <td>{{ $coupon->code }}</td>
                                         <td>{{ $coupon->type }}</td>
-                                        <td>IDR {{ $coupon->value }}</td>
-                                        <td>{{ $coupon->cart_value }}</td>
+                                        <td>{{ $coupon->value }}</td>
+                                        <td>IDR {{ $coupon->cart_value }}</td>
                                         <td>{{ $coupon->expiry_date }}</td>
                                         <td>
                                             <div class="list-icon-function">
