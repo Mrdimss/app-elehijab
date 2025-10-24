@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 
@@ -118,5 +120,24 @@ class CartController extends Controller
                 'total' => number_format($total_after_discount, 2, '.', ''),
             ]);
         }
+    }
+
+    public function remove_coupon_code()
+    {
+        Session::forget('coupon');
+        Session::forget('discounts');
+
+        return redirect()->back()->with('success', 'Coupon removed successfully!');
+    }
+
+    public function checkout()
+    {
+        if (! Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $address = Address::where('user_id', Auth::user()->id)->where('isdefault', 1)->first();
+
+        return view('checkout', compact('address'));
     }
 }
