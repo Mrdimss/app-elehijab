@@ -187,7 +187,7 @@
                         <td>Free</td>
                       </tr>
                       <tr>
-                        <th>VAT</th>
+                        <th>TAX</th>
                         <td>IDR {{Cart::instance('cart')->tax()}}</td>
                       </tr>
                       <tr>
