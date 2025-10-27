@@ -38,11 +38,14 @@ Route::post('/wishlist/move-to-cart/{rowId}', [WishlistController::class, 'move_
 
 // Checkout Route
 Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-Route::post('/place-an-order', [CartController::class,'place_an_order'])->name('cart.place.an.order');
-Route::get('/order-confirmation', [CartController::class,'order_confirmation'])->name('cart.order.confirmation');
+Route::post('/place-an-order', [CartController::class, 'place_an_order'])->name('cart.place.an.order');
+Route::get('/order-confirmation', [CartController::class, 'order_confirmation'])->name('cart.order.confirmation');
 
+// User Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/account-dashboard', [UserController::class, 'index'])->name('user.index');
+    Route::get('/account-orders', [UserController::class, 'orders'])->name('user.orders');
+    Route::get('/account-order/{order_id}/details', [UserController::class, 'order_details'])->name('user.order.details');
 });
 
 // Admin Routes
@@ -80,7 +83,8 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::put('/admin/coupon/update', [AdminController::class, 'coupon_update'])->name('admin.coupon.update');
     Route::delete('/admin/coupon/{id}/delete', [AdminController::class, 'coupon_delete'])->name('admin.coupon.delete');
 
-    Route::get('/admin/orders',[AdminController::class,'orders'])->name('admin.orders');
-    Route::get('/admin/order/{order_id}/details',[AdminController::class,'order_details'])->name('admin.order.details');
-
+    // Admin Order Routes
+    Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
+    Route::get('/admin/order/{order_id}/details', [AdminController::class, 'order_details'])->name('admin.order.details');
+    Route::put('/admin/order/update-status', [AdminController::class, 'update_order_status'])->name('admin.order.status.update');
 });
