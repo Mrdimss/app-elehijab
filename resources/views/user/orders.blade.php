@@ -72,15 +72,20 @@
                                             <td class="text-center">IDR {{ $order->subtotal }}</td>
                                             <td class="text-center">IDR {{ $order->tax }}</td>
                                             <td class="text-center">IDR {{ $order->total }}</td>
-
                                             <td class="text-center">
-                                                <span class="badge bg-danger">{{ $order->status }}</span>
+                                                @if($order->status == 'delivered')
+                                                    <span class="badge bg-success">Delivered</span>
+                                                @elseif($order->status == 'canceled')
+                                                    <span class="badge bg-danger">Canceled</span>
+                                                @else
+                                                    <span class="badge bg-warning">Ordered</span>
+                                                @endif
                                             </td>
                                             <td class="text-center">{{$order->created_at}}</td>
                                             <td class="text-center">{{$order->orderItems->count()}}</td>
                                             <td class="text-center">{{$order->delivered_date}}</td>
                                             <td class="text-center">
-                                                <a href="{{ route('user.order.details', ['order_id'=>$order->id]) }}">
+                                                <a href="{{ route('user.order.details', ['order_id' => $order->id]) }}">
                                                     <div class="list-icon-function view-icon">
                                                         <div class="item eye">
                                                             <i class="fa fa-eye"></i>

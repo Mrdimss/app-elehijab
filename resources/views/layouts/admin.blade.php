@@ -18,8 +18,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('font/fonts.css') }}">
     <link rel="stylesheet" href="{{ asset('icon/style.css') }}">
-    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
-    <link rel="apple-touch-icon-precomposed" href="{{ asset('images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('images/circle-logo.ico') }}">
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('images/circle-logo.ico') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
     @stack("styles")
@@ -38,8 +38,8 @@
                 <div class="section-menu-left">
                     <div class="box-logo">
                         <a href="{{route('home.index')}}" id="site-logo-inner">
-                            <img class="" id="logo_header_1" alt="" src="{{ asset('images/logo/logo.png') }}"
-                                data-light="{{ asset('images/logo/logo.png') }}" data-dark="{{ asset('images/logo/logo.png') }}">
+                            <img class="" id="logo_header_1" alt="" src="{{ asset('images/logo/logo-ele.png') }}"
+                                data-light="{{ asset('images/logo/logo-ele.png') }}" data-dark="{{ asset('images/logo/logo-ele.png') }}">
                         </a>
                         <div class="button-show-hide">
                             <i class="icon-menu-left"></i>
@@ -47,7 +47,6 @@
                     </div>
                     <div class="center">
                         <div class="center-item">
-                            <div class="center-heading">Main Home</div>
                             <ul class="menu-list">
                                 <li class="menu-item">
                                     <a href="{{route('admin.index')}}" class="">
@@ -133,9 +132,9 @@
                                     </ul>
                                 </li>
                                 <li class="menu-item">
-                                    <a href="slider.html" class="">
+                                    <a href="{{ route('admin.slides') }}" class="">
                                         <div class="icon"><i class="icon-image"></i></div>
-                                        <div class="text">Slider</div>
+                                        <div class="text">Slides</div>
                                     </a>
                                 </li>
                                 <li class="menu-item">
@@ -178,9 +177,9 @@
                         <div class="wrap">
                             <div class="header-left">
                                 <a href="index-2.html">
-                                    <img class="" id="logo_header_mobile" alt="" src="{{ asset('images/logo/logo.png') }}"
-                                        data-light="{{ asset('images/logo/logo.png') }}" data-dark="{{ asset('images/logo/logo.png') }}"
-                                        data-width="154px" data-height="52px" data-retina="{{ asset('images/logo/logo.png') }}">
+                                    <img class="" id="logo_header_mobile" alt="" src="{{ asset('images/logo/logo-ele.png') }}"
+                                        data-light="{{ asset('images/logo/logo-ele.png') }}" data-dark="{{ asset('images/logo/logo-ele.png') }}"
+                                        data-width="154px" data-height="52px" data-retina="{{ asset('images/logo/logo-ele.png') }}">
                                 </a>
                                 <div class="button-show-hide">
                                     <i class="icon-menu-left"></i>

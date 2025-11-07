@@ -121,6 +121,9 @@
                         </div>
 
                         <div class="table-responsive">
+                            @if (Session::has('status'))
+                                <p class="alert alert-success">{{ Session::get('status') }}</p>
+                            @endif
                             <table class="table table-striped table-bordered table-transaction">
                                 <tr>
                                     <th>Order No</th>
@@ -154,7 +157,7 @@
                         </div>
                     </div>
 
-                    <div class="wg-box">
+                    <div class="wg-box mt-5">
                         <div class="flex items-center justify-between gap10 flex-wrap">
                             <div class="wg-filter flex-grow">
                                 <h5>Ordered Items</h5>
@@ -264,9 +267,42 @@
                             </tbody>
                         </table>
                     </div>
+
+                    @if ($order->status == 'ordered')
+                        <div class="wg-box mt-5 text-right">
+                            <form action="{{ route('user.order.cancel') }}" method="post">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                <button type="button" class="btn btn-danger cancel-order">Cancel Order</button>
+                            </form>
+                        </div>
+                    @endif
                 </div>
 
             </div>
         </section>
     </main>
 @endsection
+
+@push('scripts')
+    <script>
+        $(function () {
+            $('.cancel-order').on('click', function (e) {
+                e.preventDefault();
+                var form = $(this).closest('form');
+                swal({
+                    title: "Are you Sure?",
+                    text: "You want to cancel this order?",
+                    type: "warning",
+                    buttons: ["No", "Yes"],
+                    confirmButtonColor: '#dc3545'
+                }).then(function (result) {
+                    if (result) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
