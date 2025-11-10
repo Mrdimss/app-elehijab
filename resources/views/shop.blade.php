@@ -375,9 +375,9 @@
                 <div class="product-card__price d-flex">
                   <span class="money price">
                     @if ($product->sale_price)
-                        <s>IDR{{$product->regular_price}} </s> IDR{{$product->sale_price}}
+                        <s>IDR {{$product->regular_price}} </s> IDR {{$product->sale_price}}
                     @else
-                        IDR{{$product->regular_price}}
+                        IDR {{$product->regular_price}}
                     @endif
                   </span>
                 </div>
