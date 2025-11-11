@@ -261,6 +261,36 @@
     .logo__image {
       max-width: 220px;
     }
+
+    .product-item {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+      transition: all 0.3s ease;
+      padding-right: 5px;
+    }
+
+    .product-item .image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      gap: 10px;
+      flex-shrink: 0;
+      padding: 5px;
+      border-radius: 10px;
+      background: #EFF4F8;
+    }
+
+    #box-content-search li {
+      list-style: none;
+    }
+
+    #box-content-search .product-item {
+      margin-bottom: 10px;
+    }
   </style>
   <div class="header-mobile header_sticky">
     <div class="container d-flex align-items-center h-100">
@@ -323,7 +353,7 @@
               <a href="about.html" class="navigation__link">About</a>
             </li>
             <li class="navigation__item">
-              <a href="contact.html" class="navigation__link">Contact</a>
+              <a href="{{ route('home.contact') }}" class="navigation__link">Contact</a>
             </li>
           </ul>
         </div>
@@ -412,7 +442,7 @@
               <a href="about.html" class="navigation__link">About</a>
             </li>
             <li class="navigation__item">
-              <a href="contact.html" class="navigation__link">Contact</a>
+              <a href="{{ route('home.contact') }}" class="navigation__link">Contact</a>
             </li>
           </ul>
         </nav>
@@ -430,11 +460,11 @@
             </div>
 
             <div class="search-popup js-hidden-content">
-              <form action="#" method="GET" class="search-field container">
+              <form action="{{ route('home.search') }}" method="GET" class="search-field container">
                 <p class="text-uppercase text-secondary fw-medium mb-4">What are you looking for?</p>
                 <div class="position-relative">
-                  <input class="search-field__input search-popup__input w-100 fw-medium" type="text"
-                    name="search-keyword" placeholder="Search products" />
+                  <input id="search-input" class="search-field__input search-popup__input w-100 fw-medium" type="text"
+                    name="query" placeholder="Search products" />
                   <button class="btn-icon search-popup__submit" type="submit">
                     <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
@@ -445,20 +475,9 @@
                 </div>
 
                 <div class="search-popup__results">
-                  <div class="sub-menu search-suggestion">
-                    <h6 class="sub-menu__title fs-base">Quicklinks</h6>
-                    <ul class="sub-menu__list list-unstyled">
-                      <li class="sub-menu__item"><a href="shop2.html" class="menu-link menu-link_us-s">New Arrivals</a>
-                      </li>
-                      <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Dresses</a></li>
-                      <li class="sub-menu__item"><a href="shop3.html" class="menu-link menu-link_us-s">Accessories</a>
-                      </li>
-                      <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Footwear</a></li>
-                      <li class="sub-menu__item"><a href="#" class="menu-link menu-link_us-s">Sweatshirt</a></li>
-                    </ul>
-                  </div>
-
-                  <div class="search-result row row-cols-5"></div>
+                  <div id="loading" style="display:none; text-align:center;">Searching...</div>
+                  <ul id="box-content-search">
+                  </ul>
                 </div>
               </form>
             </div>
@@ -521,7 +540,8 @@
         <div class="footer-column footer-store-info col-12 mb-4 mb-lg-0">
           <div class="logo">
             <a href="{{route('home.index')}}">
-              <img src="{{asset('assets/images/logo-ele.png') }}" alt="Ele-HijabsideMedia" class="logo__image d-block" />
+              <img src="{{asset('assets/images/logo-ele.png') }}" alt="Ele-HijabsideMedia"
+                class="logo__image d-block" />
             </a>
           </div>
           <p class="footer-address">123 Beach Avenue, Surfside City, CA 00000</p>
@@ -677,8 +697,75 @@
   <script src="{{asset('assets/js/plugins/bootstrap.bundle.min.js')}}"></script>
   <script src="{{asset('assets/js/plugins/bootstrap-slider.min.js')}}"></script>
   <script src="{{asset('assets/js/plugins/swiper.min.js')}}"></script>
-  <script src="{{ asset('js/sweetalert.min.js') }}"></script>   
+  <script src="{{ asset('js/sweetalert.min.js') }}"></script>
   <script src="{{asset('assets/js/plugins/countdown.js')}}"></script>
+  <script>
+    $(function () {
+      let timer;
+      $("#search-input").on("keyup", function () {
+        clearTimeout(timer);
+        var searchQuery = $(this).val();
+        const $results = $("#box-content-search");
+        const $loading = $("#loading");
+
+        if (searchQuery.length > 2) {
+          timer = setTimeout(function () {
+            $.ajax({
+              type: "GET",
+              url: "{{ route('home.search') }}",
+              data: { query: searchQuery },
+              dataType: 'json',
+              success: function (data) {
+                $results.html('');
+                $loading.hide();
+
+                if (data.length === 0) {
+                  $results.append(`
+                    <li class="text-center text-secondary py-2">
+                      No products found for "<b>${searchQuery}</b>"
+                    </li>
+                  `);
+                  return;
+                }
+
+                $.each(data, function (index, item) {
+                  var url = "{{ route('shop.product.details', ['product_slug' => 'product_slug_pls']) }}";
+                  var link = url.replace('product_slug_pls', item.slug);
+
+                  $("#box-content-search").append(`
+                  <li>
+                    <ul>
+                      <li class="product-item gap14 mb-10">
+                        <div class="image no-bg">
+                          <img src="{{ asset('uploads/products/thumbnails') }}/${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="flex items-center justify-between gap20 flex-grow">
+                          <div class="name">
+                            <a href="${link}" class="body-text">${item.name}</a>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="mb-10">
+                        <div class="divider">
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                `);
+                });
+              },
+              error: function () {
+                $loading.hide();
+                $results.html('<li class="text-danger text-center">Error fetching data</li>');
+              }
+            });
+          }, 400);
+        } else {
+          $results.html('');
+        }
+      });
+    });
+  </script>
   <script src="{{asset('assets/js/theme.js')}}"></script>
   @stack("scripts")
 </body>
