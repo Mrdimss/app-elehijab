@@ -2813,7 +2813,7 @@ a:hover, a:focus {
   width: max-content;
   height: 50px;
   padding: 15px 22px;
-  color: #FFF;
+  color: var(--Main);
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -2826,9 +2826,9 @@ a:hover, a:focus {
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
-  border: 1px solid var(--Main);
+  border: 1px solid var(--Palette-Blue-200);
   border-radius: 12px;
-  background-color: var(--Main);
+  background-color: var(--Palette-Blue-200);
   background-size: 100%;
   overflow: hidden;
   -webkit-transition: all 0.3s ease;
@@ -2838,8 +2838,8 @@ a:hover, a:focus {
   transition: all 0.3s ease;
 }
 .tf-button:hover {
-  color: var(--Main);
-  background-color: #FFF;
+  color: var(--White);
+  background-color: var(--Main);
 }
 .tf-button:hover span {
   color: #FFF !important;
@@ -2849,7 +2849,7 @@ a:hover, a:focus {
 }
 .tf-button.style-1 {
   color: var(--Main);
-  background-color: var(--White);
+  background-color: var(--Palette-Blue-200);
 }
 .tf-button.style-1:hover {
   color: #FFF;

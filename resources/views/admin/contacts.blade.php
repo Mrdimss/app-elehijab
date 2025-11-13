@@ -36,12 +36,12 @@
                     <a class="tf-button style-1 w208" href="{{ route('admin.coupon.add') }}"><i class="icon-plus"></i>Add
                         new</a>
                 </div>
-                <div class="wg-table table-all-user">
+                <div class="wg-table table-all-contact">
                     <div class="table-responsive">
                         @if(Session::has('status'))
                             <p class="alert alert-success">{{Session::get('status')}}</p>
                         @endif
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-striped table-hover table-contact">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -56,7 +56,7 @@
                             <tbody>
                                 @foreach ($contacts as $contact)
                                     <tr>
-                                        <td>{{ $contact->id }}</td>
+                                        <th>{{ $contact->id }}</th>
                                         <td>{{ $contact->name }}</td>
                                         <td>{{ $contact->email }}</td>
                                         <td>{{ $contact->phone }}</td>

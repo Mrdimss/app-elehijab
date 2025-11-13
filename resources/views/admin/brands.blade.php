@@ -35,15 +35,15 @@
                                         <a class="tf-button style-1 w208" href="{{route('admin.brand.add')}}"><i
                                                 class="icon-plus"></i>Add new</a>
                                     </div>
-                                    <div class="wg-table table-all-user">
+                                    <div class="wg-table table-all-category">
                                         <div class="table-responsive">
                                             @if(Session::has('status'))
                                                 <p class="alert alert-success">{{Session::get('status')}}</p>
                                             @endif
-                                            <table class="table table-striped table-bordered">
+                                            <table class="table table-striped table-hover table-category">
                                                 <thead>
                                                     <tr>
-                                                        <th>#</th>
+                                                        <th>No</th>
                                                         <th>Name</th>
                                                         <th>Slug</th>
                                                         <th>Products</th>
@@ -53,7 +53,7 @@
                                                 <tbody>
                                                     @foreach ($brands as $brand)
                                                     <tr>
-                                                        <td>{{$brand->id}}</td>
+                                                        <th>{{$brand->id}}</th>
                                                         <td class="pname">
                                                             <div class="image">
                                                                 <img src="{{asset('uploads/brands')}}/{{$brand->image}}" alt="{{$brand->name}}" class="image">

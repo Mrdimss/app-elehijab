@@ -198,34 +198,34 @@
                             </a>
                         </div>
                     </div>
-                    <div class="wg-table table-all-user">
+                    <div class="wg-table table-all-order">
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered">
+                            <table class="table table-striped table-hover table-order">
                                 <thead>
                                     <tr>
-                                        <th style="width:70px">OrderNo</th>
-                                        <th class="text-center">Name</th>
-                                        <th class="text-center">Phone</th>
-                                        <th class="text-center">Subtotal</th>
-                                        <th class="text-center">Tax</th>
-                                        <th class="text-center">Total</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Order Date</th>
-                                        <th class="text-center">Total Items</th>
-                                        <th class="text-center">Delivered On</th>
-                                        <th class="text-center">Action</th>
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Subtotal</th>
+                                        <th>Tax</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Order Date</th>
+                                        <th>Total Items</th>
+                                        <th>Delivered On</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($orders as $order)
                                         <tr>
-                                            <td class="text-center">{{$order->id}}</td>
-                                            <td class="text-center">{{$order->name}}</td>
-                                            <td class="text-center">{{$order->phone}}</td>
-                                            <td class="text-center">IDR {{$order->subtotal}}</td>
-                                            <td class="text-center">IDR {{$order->tax}}</td>
-                                            <td class="text-center">IDR {{$order->total}}</td>
-                                            <td class="text-center">
+                                            <th>{{$order->id}}</th>
+                                            <td>{{$order->name}}</td>
+                                            <td>{{$order->phone}}</td>
+                                            <td>IDR {{$order->subtotal}}</td>
+                                            <td>IDR {{$order->tax}}</td>
+                                            <td>IDR {{$order->total}}</td>
+                                            <td>
                                                 @if($order->status == 'delivered')
                                                     <span class="badge bg-success">Delivered</span>
                                                 @elseif($order->status == 'canceled')
@@ -234,12 +234,12 @@
                                                     <span class="badge bg-warning">Ordered</span>
                                                 @endif
                                             </td>
-                                            <td class="text-center">{{$order->created_at}}</td>
-                                            <td class="text-center">{{$order->orderItems->count()}}</td>
-                                            <td class="text-center">{{$order->delivered_date}}</td>
-                                            <td class="text-center">
+                                            <td>{{$order->created_at}}</td>
+                                            <td>{{$order->orderItems->count()}}</td>
+                                            <td>{{$order->delivered_date}}</td>
+                                            <td>
                                                 <a href="{{route('admin.order.details', ['order_id' => $order->id])}}">
-                                                    <div class="list-icon-function view-icon">
+                                                    <div class="list-icon-function">
                                                         <div class="item eye">
                                                             <i class="icon-eye"></i>
                                                         </div>
