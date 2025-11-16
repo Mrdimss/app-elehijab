@@ -25,8 +25,8 @@
                     <div class="wg-filter flex-grow">
                         <form class="form-search">
                             <fieldset class="name">
-                                <input type="text" placeholder="Search here..." class="" name="name" tabindex="2" value=""
-                                    aria-required="true" required="">
+                                <input type="text" placeholder="Search here..." class="" id="search" name="name" tabindex="2" value=""
+                                    aria-required="true" required="" autocomplete="off">
                             </fieldset>
                             <div class="button-submit">
                                 <button class="" type="submit"><i class="icon-search"></i></button>
@@ -53,8 +53,8 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach ($coupons as $coupon)
+                            <tbody id="table-body">
+                                @foreach ($coupons as $key => $coupon)
                                     <tr>
                                         <th>{{ $coupon->id }}</th>
                                         <td>{{ $coupon->code }}</td>
@@ -108,6 +108,57 @@
                 }).then(function(result){
                     if(result){
                         form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#search').on('keyup', function () {
+                let search = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('admin.coupon.search') }}",
+                    type: "GET",
+                    data: { search: search },
+                    success: function (data) {
+                        let rows = '';
+
+                        if (data.length === 0) {
+                            rows = `<tr><td colspan="8" class="text-center">No coupon found for "<b>${search}</b>"</td></tr>`;
+                        } else {
+                            data.forEach((item, index) => {
+                                rows += `
+                                    <tr>
+                                        <th>${item.id}</th>
+                                        <td>${item.code}</td>
+                                        <td>${item.type}</td>
+                                        <td>${item.value}</td>
+                                        <td>IDR ${item.cart_value}</td>
+                                        <td>${item.expiry_date}</td>
+                                        <td>
+                                            <div class="list-icon-function">
+                                                <a href="/admin/coupon/${item.id}/edit">
+                                                    <div class="item edit">
+                                                        <i class="icon-edit-3"></i>
+                                                    </div>
+                                                </a>
+                                                <form action="/admin/coupon/${item.id}/delete" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="item text-danger delete">
+                                                        <i class="icon-trash-2"></i>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                        }
+                        $('#table-body').html(rows);
                     }
                 });
             });

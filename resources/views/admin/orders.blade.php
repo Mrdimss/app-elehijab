@@ -24,8 +24,8 @@
                     <div class="wg-filter flex-grow">
                         <form class="form-search">
                             <fieldset class="name">
-                                <input type="text" placeholder="Search here..." class="" name="name" tabindex="2" value=""
-                                    aria-required="true" required="">
+                                <input type="text" placeholder="Search here..." class="" id="search" name="name" tabindex="2" value=""
+                                    aria-required="true" required="" autocomplete="off">
                             </fieldset>
                             <div class="button-submit">
                                 <button class="" type="submit">
@@ -54,8 +54,8 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach ($orders as $order)
+                            <tbody class="table-body">
+                                @foreach ($orders as $key => $order)
                                     <tr>
                                         <th>{{$order->id}}</th>
                                         <td>{{$order->name}}</td>
@@ -74,7 +74,13 @@
                                         </td>
                                         <td>{{$order->created_at}}</td>
                                         <td>{{$order->orderItems->count()}}</td>
-                                        <td>{{$order->delivered_date}}</td>
+                                        <td>
+                                            @if ($order->status == 'delivered')
+                                                {{$order->delivered_date}}
+                                            @else
+                                                -                                            
+                                            @endif
+                                        </td>
                                         <td>
                                             <a href="{{route('admin.order.details', ['order_id' => $order->id])}}">
                                                 <div class="list-icon-function">
@@ -99,3 +105,76 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+$(document).ready(function () {
+
+    $('#search').on('keyup', function () {
+        let search = $(this).val();
+
+        $.ajax({
+            url: "{{ route('admin.order.search') }}",
+            type: "GET",
+            data: { search: search },
+            success: function (data) {
+                let rows = '';
+
+                if (data.length === 0) {
+                    rows = `
+                        <tr>
+                            <td colspan="11" class="text-center">
+                                No orders found for "<b>${search}</b>"
+                            </td>
+                        </tr>`;
+                } else {
+                    data.forEach(item => {
+
+                        // status badge
+                        let statusBadge =
+                            item.status === 'delivered'
+                                ? `<span class="badge bg-success">Delivered</span>`
+                                : item.status === 'canceled'
+                                    ? `<span class="badge bg-danger">Canceled</span>`
+                                    : `<span class="badge bg-warning">Ordered</span>`;
+
+                        // count order items (pastikan controller return orderItems)
+                        let itemCount = item.orderItems ? item.orderItems.length : 0;
+
+                        rows += `
+                            <tr>
+                                <th>${item.id}</th>
+                                <td>${item.name}</td>
+                                <td>${item.phone}</td>
+                                <td>IDR ${item.subtotal}</td>
+                                <td>IDR ${item.tax}</td>
+                                <td>IDR ${item.total}</td>
+
+                                <td>${statusBadge}</td>
+
+                                <td>${item.created_at}</td>
+                                <td>${itemCount}</td>
+                                <td>${item.delivered_date ?? '-'}</td>
+
+                                <td>
+                                    <a href="/admin/order/${item.id}/details">
+                                        <div class="list-icon-function">
+                                            <div class="item eye">
+                                                <i class="icon-eye"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+                $('#table-body').html(rows);
+            }
+        });
+    });
+
+});
+</script>
+
+@endpush

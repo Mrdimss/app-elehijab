@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Surfsidemedia\Shoppingcart\Facades\Cart;
 
 class UserController extends Controller
 {
@@ -15,6 +16,13 @@ class UserController extends Controller
     public function index()
     {
         return view('user.index');
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+
+        return view('user.account-details', compact('user'));
     }
 
     public function orders()
@@ -45,5 +53,12 @@ class UserController extends Controller
         $order->save();
 
         return back()->with('status', 'Order cancelled!');
+    }
+
+    public function index_wishlist()
+    {
+        $items = Cart::instance('wishlist')->content();
+
+        return view('user.account-wishlist', compact('items'));
     }
 }

@@ -14,6 +14,7 @@ Auth::routes();
 
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/about', [HomeController::class, 'about'])->name('home.about');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product_slug}', [ShopController::class, 'product_details'])->name('shop.product.details');
 
@@ -54,6 +55,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/account-orders', [UserController::class, 'orders'])->name('user.orders');
     Route::get('/account-order/{order_id}/details', [UserController::class, 'order_details'])->name('user.order.details');
     Route::put('/account-order/cancel-order', [UserController::class, 'order_cancel'])->name('user.order.cancel');
+    Route::get('/account-details', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/account-wishlist', [UserController::class, 'index_wishlist'])->name('user.wishlist');
 });
 
 // Admin Routes
@@ -63,9 +66,10 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/brands', [AdminController::class, 'brands'])->name('admin.brands');
     Route::get('/admin/brand/add', [AdminController::class, 'add_brand'])->name('admin.brand.add');
     Route::post('/admin/brand/store', [AdminController::class, 'brand_store'])->name('admin.brand.store');
-    Route::get('/admin/brand/edit/{id}', [AdminController::class, 'brand_edit'])->name('admin.brand.edit');
+    Route::get('/admin/brand/{id}/edit/', [AdminController::class, 'brand_edit'])->name('admin.brand.edit');
     Route::put('/admin/brand/update', [AdminController::class, 'brand_update'])->name('admin.brand.update');
     Route::delete('/admin/brand/{id}/delete', [AdminController::class, 'brand_delete'])->name('admin.brand.delete');
+    Route::get('/admin/brands/search', [AdminController::class, 'brands_search'])->name('admin.brand.search');
 
     // Admin Category Routes
     Route::get('/admin/categories', [AdminController::class, 'categories'])->name('admin.categories');
@@ -74,6 +78,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/category/{id}/edit', [AdminController::class, 'category_edit'])->name('admin.category.edit');
     Route::put('/admin/category/update', [AdminController::class, 'category_update'])->name('admin.category.update');
     Route::delete('/admin/category/{id}/delete', [AdminController::class, 'category_delete'])->name('admin.category.delete');
+    Route::get('/admin/category/search', [AdminController::class, 'categories_search'])->name('admin.category.search');
 
     // Admin Product Routes
     Route::get('/admin/products', [AdminController::class, 'products'])->name('admin.products');
@@ -82,6 +87,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/product/{id}/edit', [AdminController::class, 'product_edit'])->name('admin.product.edit');
     Route::put('/admin/product/update', [AdminController::class, 'product_update'])->name('admin.product.update');
     Route::delete('/admin/product/{id}/delete', [AdminController::class, 'product_delete'])->name('admin.product.delete');
+    Route::get('/admin/product-page/search', [AdminController::class, 'products_search'])->name('admin.product.search');
 
     // Admin Coupon Routes
     Route::get('/admin/coupons', [AdminController::class, 'coupons'])->name('admin.coupons');
@@ -90,11 +96,13 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/coupon/{id}/edit', [AdminController::class, 'coupon_edit'])->name('admin.coupon.edit');
     Route::put('/admin/coupon/update', [AdminController::class, 'coupon_update'])->name('admin.coupon.update');
     Route::delete('/admin/coupon/{id}/delete', [AdminController::class, 'coupon_delete'])->name('admin.coupon.delete');
+    Route::get('/admin/coupons/search', [AdminController::class, 'coupons_search'])->name('admin.coupon.search');
 
     // Admin Order Routes
     Route::get('/admin/orders', [AdminController::class, 'orders'])->name('admin.orders');
     Route::get('/admin/order/{order_id}/details', [AdminController::class, 'order_details'])->name('admin.order.details');
     Route::put('/admin/order/update-status', [AdminController::class, 'update_order_status'])->name('admin.order.status.update');
+    Route::get('/admin/order/search', [AdminController::class, 'orders_search'])->name('admin.order.search');
 
     // Admin Slide Routes
     Route::get('/admin/slides', [AdminController::class, 'slides'])->name('admin.slides');
@@ -103,10 +111,19 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/slide/{id}/edit', [AdminController::class, 'slide_edit'])->name('admin.slide.edit');
     Route::put('/admin/slide/update', [AdminController::class, 'slide_update'])->name('admin.slide.update');
     Route::delete('/admin/slide/{id}/delete', [AdminController::class, 'slide_delete'])->name('admin.slide.delete');
+    Route::get('/admin/slide/search', [AdminController::class, 'slides_search'])->name('admin.slide.search');
 
     // Admin Contact Routes
     Route::get('/admin/contacts', [AdminController::class, 'contacts'])->name('admin.contacts');
     Route::delete('/admin/contact/{id}/delete', [AdminController::class, 'contact_delete'])->name('admin.contact.delete');
+    Route::get('/admin/contact/search', [AdminController::class, 'contacts_search'])->name('admin.contact.search');
+
+    // Admin - Users Management
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/admin/user/search', [AdminController::class, 'users_search'])->name('admin.user.search');
+
+    // Admin Setting Routes
+    Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
 
     // Admin Search Product
     Route::get('/admin/product/search', [AdminController::class, 'search'])->name('admin.search');

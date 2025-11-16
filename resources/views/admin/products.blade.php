@@ -24,8 +24,8 @@
                     <div class="wg-filter flex-grow">
                         <form class="form-search">
                             <fieldset class="name">
-                                <input type="text" placeholder="Search here..." class="" name="name" tabindex="2" value=""
-                                    aria-required="true" required="">
+                                <input type="text" placeholder="Search here..." class="" id="search" name="search"
+                                    tabindex="2" value="" aria-required="true" required="" autocomplete="off">
                             </fieldset>
                             <div class="button-submit">
                                 <button class="" type="submit"><i class="icon-search"></i></button>
@@ -56,8 +56,8 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach ($products as $product)
+                            <tbody id="table-body">
+                                @foreach ($products as $key => $product)
                                     <tr>
                                         <th>{{$product->id}}</th>
                                         <td class="pname">
@@ -70,8 +70,8 @@
                                                 <div class="text-tiny mt-3">{{$product->slug}}</div>
                                             </div>
                                         </td>
-                                        <td>IDR{{$product->regular_price}}</td>
-                                        <td>IDR{{$product->sale_price}}</td>
+                                        <td>IDR {{$product->regular_price}}</td>
+                                        <td>IDR {{$product->sale_price}}</td>
                                         <td>{{$product->SKU}}</td>
                                         <td>{{$product->category->name}}</td>
                                         <td>{{$product->brand->name}}</td>
@@ -130,6 +130,90 @@
                 }).then(function (result) {
                     if (result) {
                         form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // STOP form submit agar tidak reload
+            // $('.form-search').on('submit', function (e) {
+            //     e.preventDefault();
+            // });
+
+            $('#search').on('keyup', function () {
+                let search = $(this).val();
+
+                // SEMBUNYIKAN PAGINATION SAAT SEARCH
+                if (search.length > 0) {
+                    $('.wgp-pagination').hide();
+                } else {
+                    $('.wgp-pagination').show();
+                }
+
+                $.ajax({
+                    url: "{{ route('admin.product.search') }}",
+                    type: "GET",
+                    data: { search: search },
+                    success: function (data) {
+
+                        let rows = "";
+
+                        if (data.length === 0) {
+                            rows = `<tr><td colspan="6" class="text-center">No product found for "<b>${search}</b>"</td></tr>`;
+                        } else {
+                            data.forEach((item, index) => {
+                                rows += `
+                                    <tr>
+                                        <th>${item.id}</th>
+                                        <td class="pname">
+                                            <div class="image">
+                                                <img src="{{asset('uploads/products/thumbnails')}}/${item.image}"
+                                                    alt="${item.name}" class="image">
+                                            </div>
+                                            <div class="name">
+                                                <a href="#" class="body-title-2">${item.name}</a>
+                                                <div class="text-tiny mt-3">${item.slug}</div>
+                                            </div>
+                                        </td>
+                                        <td>IDR ${item.regular_price}</td>
+                                        <td>IDR ${item.sale_price}</td>
+                                        <td>${item.SKU}</td>
+                                        <td>${item.category ? item.category.name : '-'}</td>
+                                        <td>${item.brand ? item.brand.name : '-'}</td>
+                                        <td>${item.featured == 0 ? "No": "Yes"}</td>
+                                        <td>${item.stock_status}</td>
+                                        <td>${item.quantity}</td>
+                                        <td>
+                                            <div class="list-icon-function">
+                                                <a href="#" target="_blank">
+                                                    <div class="item eye">
+                                                        <i class="icon-eye"></i>
+                                                    </div>
+                                                </a>
+                                                <a href="/admin/product/${item.id}/edit">
+                                                    <div class="item edit">
+                                                        <i class="icon-edit-3"></i>
+                                                    </div>
+                                                </a>
+                                                <form action="/admin/product/${item.id}/delete"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="item text-danger delete">
+                                                        <i class="icon-trash-2"></i>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                        }
+
+                        $('#table-body').html(rows);
                     }
                 });
             });

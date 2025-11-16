@@ -11,8 +11,10 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Slide;
 use App\Models\Transaction;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -66,7 +68,7 @@ class AdminController extends Controller
 
     public function brands()
     {
-        $brands = Brand::orderBy('id', 'DESC')->paginate(10);
+        $brands = Brand::orderBy('id', 'ASC')->paginate(10);
 
         return view('admin.brands', compact('brands'));
     }
@@ -153,7 +155,7 @@ class AdminController extends Controller
 
     public function categories()
     {
-        $categories = Category::orderBy('id', 'DESC')->paginate(10);
+        $categories = Category::orderBy('id', 'ASC')->paginate(10);
 
         return view('admin.categories', compact('categories'));
     }
@@ -240,7 +242,7 @@ class AdminController extends Controller
 
     public function products()
     {
-        $products = Product::orderBy('created_at', 'DESC')->paginate(10);
+        $products = Product::orderBy('created_at', 'ASC')->paginate(10);
 
         return view('admin.products', compact('products'));
     }
@@ -451,7 +453,7 @@ class AdminController extends Controller
 
     public function coupons()
     {
-        $coupons = Coupon::orderBy('expiry_date', 'DESC')->paginate(12);
+        $coupons = Coupon::orderBy('expiry_date', 'ASC')->paginate(12);
 
         return view('admin.coupons', compact('coupons'));
     }
@@ -559,7 +561,7 @@ class AdminController extends Controller
 
     public function slides()
     {
-        $slides = Slide::orderBy('id', 'DESC')->paginate(12);
+        $slides = Slide::orderBy('id', 'ASC')->paginate(12);
 
         return view('admin.slides', compact('slides'));
     }
@@ -673,11 +675,127 @@ class AdminController extends Controller
         return redirect()->route('admin.contacts')->with('status', 'Message deleted successfully!');
     }
 
+    public function users()
+    {
+        $users = User::orderBy('id', 'ASC')->paginate(12);
+
+        return view('admin.users', compact('users'));
+    }
+
+    public function settings()
+    {
+        $user = Auth::user();
+
+        return view('admin.settings', compact('user'));
+    }
+
     public function search(Request $request)
     {
         $query = $request->input('query');
         $results = Product::where('name', 'LIKE', "%{$query}%")->take(8)->get();
 
         return response()->json($results);
+    }
+
+    public function products_search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $products = Product::with(['category', 'brand'])
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%")
+                        ->orWhere('slug', 'LIKE', "%{$search}%")
+                        ->orWhereHas('category', function ($q2) use ($search) {
+                            $q2->where('name', 'LIKE', "%{$search}%");
+                        })
+                        ->orWhereHas('brand', function ($q3) use ($search) {
+                            $q3->where('name', 'LIKE', "%{$search}%");
+                        });
+                });
+            })->orderBy('id', 'ASC')->get();
+
+        return response()->json($products);
+    }
+
+    public function brands_search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $brands = Brand::when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', "%{$search}%")->orWhere('slug', 'LIKE', "%{$search}%");
+        })->orderBy('id', 'ASC')->get();
+
+        return response()->json($brands);
+    }
+
+    public function categories_search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $categories = Category::when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', "%{$search}%")->orWhere('slug', 'LIKE', "%{$search}%");
+        })->orderBy('id', 'ASC')->get();
+
+        return response()->json($categories);
+    }
+
+    public function orders_search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $order = Order::when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', "%{$search}%")->orWhere('phone', 'LIKE', "%{$search}%");
+        })->orderBy('id', 'ASC')->get();
+
+        return response()->json($order);
+    }
+
+    public function slides_search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $slides = Slide::when($search, function ($query) use ($search) {
+            $query->where('tagline', 'LIKE', "%{$search}%")->orWhere('title', 'LIKE', "%{$search}%");
+        })->orderBy('id', 'ASC')->get();
+
+        return response()->json($slides);
+    }
+
+    public function coupons_search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $coupons = Coupon::when($search, function ($query) use ($search) {
+            $query->where('code', 'LIKE', "%{$search}%")->orWhere('type', 'LIKE', "%{$search}%");
+        })->orderBy('id', 'ASC')->get();
+
+        return response()->json($coupons);
+    }
+
+    public function contacts_search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $contacts = Contact::when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', "%{$search}%")
+                ->orWhere('email', 'LIKE', "%{$search}%")
+                ->orWhere('phone', 'LIKE', "%{$search}%");
+        })->orderBy('id', 'DESC')->get();
+
+        return response()->json($contacts);
+    }
+
+    public function users_search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $users = User::when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', "%{$search}%")
+                ->orWhere('email', 'LIKE', "%{$search}%")
+                ->orWhere('mobile', 'LIKE', "%{$search}%");
+        })->orderBy('id', 'ASC')->get();
+
+        return response()->json($users);
     }
 }

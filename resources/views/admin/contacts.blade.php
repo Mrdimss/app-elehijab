@@ -25,7 +25,7 @@
                     <div class="wg-filter flex-grow">
                         <form class="form-search">
                             <fieldset class="name">
-                                <input type="text" placeholder="Search here..." class="" name="name" tabindex="2" value=""
+                                <input type="text" placeholder="Search here..." class="" id="search" name="name" tabindex="2" value=""
                                     aria-required="true" required="">
                             </fieldset>
                             <div class="button-submit">
@@ -33,8 +33,6 @@
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="{{ route('admin.coupon.add') }}"><i class="icon-plus"></i>Add
-                        new</a>
                 </div>
                 <div class="wg-table table-all-contact">
                     <div class="table-responsive">
@@ -53,7 +51,7 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="table-body">
                                 @foreach ($contacts as $contact)
                                     <tr>
                                         <th>{{ $contact->id }}</th>
@@ -103,6 +101,52 @@
                 }).then(function(result){
                     if(result){
                         form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#search').on('keyup', function () {
+                let search = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('admin.contact.search') }}",
+                    type: "GET",
+                    data: { search: search },
+                    success: function (data) {
+                        let rows = '';
+
+                        if (data.length === 0) {
+                            rows = `<tr><td colspan="6" class="text-center">No message found for "<b>${search}</b>"</td></tr>`;
+                        } else {
+                            data.forEach((item, index) => {
+                                rows += `
+                                    <tr>
+                                        <th>${item.id}</th>
+                                        <td>${item.name}</td>
+                                        <td>${item.email}</td>
+                                        <td>${item.phone}</td>
+                                        <td>${item.comment}</td>
+                                        <td>${item.created_at}</td>
+                                        <td>
+                                            <div class="list-icon-function">
+                                                <form action="/admin/contact/${item.id}/delete" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="item text-danger delete">
+                                                        <i class="icon-trash-2"></i>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                        }
+                        $('#table-body').html(rows);
                     }
                 });
             });

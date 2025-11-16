@@ -97,8 +97,7 @@
           </div>
         </div>
 
-
-        <div class="accordion" id="size-filters">
+        {{-- <div class="accordion" id="size-filters">
           <div class="accordion-item mb-4 pb-3">
             <h5 class="accordion-header" id="accordion-heading-size">
               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
@@ -126,7 +125,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> --}}
 
 
         <div class="accordion" id="brand-filters">
@@ -187,11 +186,11 @@
               <div class="price-range__info d-flex align-items-center mt-2">
                 <div class="me-auto">
                   <span class="text-secondary">Min Price: </span>
-                  <span class="price-range__min">IDR1.000</span>
+                  <span class="price-range__min">IDR 1.000</span>
                 </div>
                 <div>
                   <span class="text-secondary">Max Price: </span>
-                  <span class="price-range__max">IDR500.000</span>
+                  <span class="price-range__max">IDR 500.000</span>
                 </div>
               </div>
             </div>

@@ -31,11 +31,11 @@
         <div id="page" class="">
             <div class="layout-wrap">
 
-                <!-- <div id="preload" class="preload-container">
-    <div class="preloading">
-        <span></span>
-    </div>
-</div> -->
+                <div id="preload" class="preload-container">
+                    <div class="preloading">
+                        <span></span>
+                    </div>
+                </div>
 
                 <div class="section-menu-left">
                     <div class="box-logo">
@@ -154,14 +154,14 @@
                                 </li>
 
                                 <li class="menu-item">
-                                    <a href="users.html" class="">
+                                    <a href="{{ route('admin.users') }}" class="">
                                         <div class="icon"><i class="icon-user"></i></div>
                                         <div class="text">User</div>
                                     </a>
                                 </li>
 
                                 <li class="menu-item">
-                                    <a href="settings.html" class="">
+                                    <a href="{{ route('admin.settings') }}" class="">
                                         <div class="icon"><i class="icon-settings"></i></div>
                                         <div class="text">Settings</div>
                                     </a>
@@ -199,8 +199,9 @@
 
                                 <form class="form-search flex-grow">
                                     <fieldset class="name">
-                                        <input type="text" placeholder="Search here..." class="show-search" name="query" 
-                                            id="search-input" tabindex="2" aria-required="true" required="" autocomplete="off">
+                                        <input type="text" placeholder="Search here..." class="show-search" name="query"
+                                            id="search-input" tabindex="2" aria-required="true" required=""
+                                            autocomplete="off">
                                     </fieldset>
                                     <div class="button-submit">
                                         <button class="" type="submit"><i class="icon-search"></i></button>
@@ -208,7 +209,7 @@
                                     <div class="box-content-search">
                                         <div id="loading" style="display:none; text-align:center;">Searching...</div>
                                         <ul id="box-content-search"></ul>
-</ul>
+                                        </ul>
                                     </div>
                                 </form>
 
@@ -291,8 +292,8 @@
                                                     <img src="images/avatar/user-1.png" alt="">
                                                 </span>
                                                 <span class="flex flex-column">
-                                                    <span class="body-title mb-2">Kristin Watson</span>
-                                                    <span class="text-tiny">Admin</span>
+                                                    <span class="body-title mb-2">{{ Auth::user()->name }}</span>
+                                                    <span class="text-tiny">{{ Auth::user()->utype }}</span>
                                                 </span>
                                             </span>
                                         </button>

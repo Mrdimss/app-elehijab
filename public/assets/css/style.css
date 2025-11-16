@@ -8805,6 +8805,7 @@ img {
   color: #fff;
   background-color: #222222;
   border-color: #222222;
+  border-radius: 15px;
   box-shadow: none; }
   .btn-primary:hover {
     color: #fff;
@@ -9481,7 +9482,7 @@ img {
   background-clip: padding-box;
   border: 0.125rem solid #e4e4e4;
   appearance: none;
-  border-radius: 0;
+  border-radius: 15px;
   box-shadow: none;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
   @media (prefers-reduced-motion: reduce) {
@@ -9969,7 +9970,7 @@ textarea.form-control-lg {
 .input-group-sm > .btn {
   padding: 0.75rem 1.125rem;
   font-size: 0.875rem;
-  border-radius: 0; }
+  border-radius: 15px; }
 
 .input-group-lg > .form-select,
 .input-group-sm > .form-select {
