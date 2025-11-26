@@ -70,8 +70,14 @@ class CartController extends Controller
             return redirect()->back()->with('error', 'Please enter a coupon code.');
         }
 
-        // Ambil subtotal dalam format numerik (hilangkan koma & simbol lain)
-        $subtotal = floatval(preg_replace('/[^\d.]/', '', Cart::instance('cart')->subtotal()));
+        $rawSubtotal = Cart::instance('cart')->subtotal(0, '.', ''); // Ambil subtotal tanpa pemformatan
+
+        if (is_string($rawSubtotal)) {
+            // Bersihkan dari semua karakter non-numerik kecuali titik desimal
+            $subtotal = floatval(preg_replace('/[^\d.]/', '', $rawSubtotal));
+        } else {
+            $subtotal = floatval($rawSubtotal);
+        }
 
         // Cek kupon berdasarkan kode, tanggal kadaluarsa, dan nilai minimum cart
         $coupon = Coupon::where('code', $coupon_code)
@@ -103,7 +109,14 @@ class CartController extends Controller
 
         if (Session::has('coupon')) {
             // Pastikan subtotal dan value benar-benar numeric
-            $subtotal = floatval(str_replace(',', '', Cart::instance('cart')->subtotal()));
+            // Ambil subtotal murni (tanpa pemformatan 2 desimal)
+            $rawSubtotal = Cart::instance('cart')->subtotal(0, '.', '');
+            if (is_string($rawSubtotal)) {
+                $subtotal = floatval(preg_replace('/[^\d.]/', '', $rawSubtotal));
+            } else {
+                $subtotal = floatval($rawSubtotal);
+            }
+
             $value = floatval(Session::get('coupon')['value']);
 
             if (Session::get('coupon')['type'] == 'fixed') {
@@ -112,15 +125,23 @@ class CartController extends Controller
                 $discount = $subtotal * ($value / 100);
             }
 
+            // Pastikan diskon tidak melebihi subtotal
+            $discount = min($discount, $subtotal);
+
             $subtotal_after_discount = $subtotal - $discount;
-            $tax_after_discount = ($subtotal_after_discount * config('cart.tax')) / 100;
+
+            // Perbaikan: Gunakan config('cart.tax') sebagai float/decimal, bukan persen
+            // Jika config('cart.tax') adalah 10, bagi dengan 100
+            $taxRate = config('cart.tax') / 100;
+
+            $tax_after_discount = $subtotal_after_discount * $taxRate;
             $total_after_discount = $subtotal_after_discount + $tax_after_discount;
 
             Session::put('discounts', [
-                'discount' => number_format(floatval($discount), 2, '.', ''),
-                'subtotal' => number_format(floatval($subtotal_after_discount), 2, '.', ''),
-                'tax' => number_format(floatval($tax_after_discount), 2, '.', ''),
-                'total' => number_format(floatval($total_after_discount), 2, '.', ''),
+                'discount' => round(floatval($discount), 2),
+                'subtotal' => round(floatval($subtotal_after_discount), 2),
+                'tax' => round(floatval($tax_after_discount), 2),
+                'total' => round(floatval($total_after_discount), 2),
             ]);
         }
     }
@@ -147,10 +168,9 @@ class CartController extends Controller
     public function place_an_order(Request $request)
     {
         $user_id = Auth::user()->id;
-        $address = Address::where('user_id',$user_id)->where('isdefault',true)->first();
+        $address = Address::where('user_id', $user_id)->where('isdefault', true)->first();
 
-        if(!$address)
-        {
+        if (! $address) {
             $request->validate([
                 'name' => 'required|max:100',
                 'phone' => 'required|numeric|digits:12',
@@ -162,7 +182,7 @@ class CartController extends Controller
                 'landmark' => 'required',
             ]);
 
-            $address = new Address();
+            $address = new Address;
             $address->name = $request->name;
             $address->phone = $request->phone;
             $address->zip = $request->zip;
@@ -179,12 +199,12 @@ class CartController extends Controller
 
         $this->setAmountforCheckout();
 
-        $order = new Order();
+        $order = new Order;
         $order->user_id = $user_id;
-        $order->subtotal = Session::get('checkout')['subtotal'];
-        $order->discount = Session::get('checkout')['discount'];
-        $order->tax = Session::get('checkout')['tax'];
-        $order->total = Session::get('checkout')['total'];
+        $order->subtotal = cleanNumber(Session::get('checkout')['subtotal']);
+        $order->discount = cleanNumber(Session::get('checkout')['discount']);
+        $order->tax = cleanNumber(Session::get('checkout')['tax']);
+        $order->total = cleanNumber(Session::get('checkout')['total']);
         $order->name = $address->name;
         $order->phone = $address->phone;
         $order->locality = $address->locality;
@@ -195,10 +215,9 @@ class CartController extends Controller
         $order->landmark = $address->landmark;
         $order->zip = $address->zip;
         $order->save();
-        
-        foreach(Cart::instance('cart')->content() as $item)
-        {
-            $orderItem = new OrderItem();
+
+        foreach (Cart::instance('cart')->content() as $item) {
+            $orderItem = new OrderItem;
             $orderItem->product_id = $item->id;
             $orderItem->order_id = $order->id;
             $orderItem->price = $item->price;
@@ -206,21 +225,16 @@ class CartController extends Controller
             $orderItem->save();
         }
 
-        if($request->mode == "card")
-        {
+        if ($request->mode == 'card') {
             //
-        }
-        elseif($request->mode == "paypal")
-        {
+        } elseif ($request->mode == 'paypal') {
             //
-        }
-        elseif($request->mode == "cod")
-        {
-            $transaction = new Transaction();
+        } elseif ($request->mode == 'cod') {
+            $transaction = new Transaction;
             $transaction->user_id = $user_id;
             $transaction->order_id = $order->id;
             $transaction->mode = $request->mode;
-            $transaction->status = "pending";
+            $transaction->status = 'pending';
             $transaction->save();
         }
 
@@ -228,29 +242,28 @@ class CartController extends Controller
         Session::forget('checkout');
         Session::forget('coupon');
         Session::forget('discounts');
-        Session::put('order_id',$order->id);
+        Session::put('order_id', $order->id);
+
         return redirect()->route('cart.order.confirmation');
     }
 
     public function setAmountforCheckout()
     {
-        if(!Cart::instance('cart')->content()->count() > 0)
-        {
+        if (! Cart::instance('cart')->content()->count() > 0) {
             Session::forget('checkout');
+
             return;
         }
-        
-        if(Session::has('coupon'))
-        {    
-            Session::put('checkout',[
+
+        if (Session::has('coupon')) {
+            Session::put('checkout', [
                 'discount' => Session::get('discounts')['discount'],
                 'subtotal' => Session::get('discounts')['subtotal'],
                 'tax' => Session::get('discounts')['tax'],
                 'total' => Session::get('discounts')['total'],
             ]);
-        }
-        else{
-            Session::put('checkout',[
+        } else {
+            Session::put('checkout', [
                 'discount' => 0,
                 'subtotal' => Cart::instance('cart')->subtotal(),
                 'tax' => Cart::instance('cart')->tax(),
@@ -261,11 +274,12 @@ class CartController extends Controller
 
     public function order_confirmation()
     {
-        if(Session::has('order_id'))
-        {
+        if (Session::has('order_id')) {
             $order = Order::find(Session::get('order_id'));
-            return view('order-confirmation',compact('order'));
+
+            return view('order-confirmation', compact('order'));
         }
-        return redirect()->route('cart.index'); 
+
+        return redirect()->route('cart.index');
     }
 }

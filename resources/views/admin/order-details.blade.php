@@ -36,35 +36,37 @@
                     @if (Session::has('status'))
                         <p class="alert alert-success">{{ Session::get('status') }}</p>
                     @endif
-                    <table class="table table-striped table-bordered">
-                        <tr>
-                            <th>Order No</th>
-                            <td>{{$order->id}}</td>
-                            <th>Mobile</th>
-                            <td>{{$order->phone}}</td>
-                            <th>Zip Code</th>
-                            <td>{{$order->zip}}</td>
-                        </tr>
-                        <tr>
-                            <th>Order Date</th>
-                            <td>{{$order->created_at}}</td>
-                            <th>Delivered Date</th>
-                            <td>{{$order->delivered_date}}</td>
-                            <th>Canceled Date</th>
-                            <td>{{$order->canceled_date}}</td>
-                        </tr>
-                        <tr>
-                            <th>Order Status</th>
-                            <td colspan="5">
-                                @if($order->status == 'delivered')
-                                    <span class="badge bg-success">Delivered</span>
-                                @elseif($order->status == 'canceled')
-                                    <span class="badge bg-danger">Canceled</span>
-                                @else
-                                    <span class="badge bg-warning">Ordered</span>
-                                @endif
-                            </td>
-                        </tr>
+                    <table class="table table-striped table-hover table-order-details">
+                        <thead>
+                            <tr>
+                                <th>Order No</th>
+                                <th>Mobile</th>
+                                <th>Zip Code</th>
+                                <th>Order Date</th>
+                                <th>Delivered Date</th>
+                                <th>Canceled Date</th>
+                                <th>Order Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{$order->id}}</td>
+                                <td>{{$order->phone}}</td>
+                                <td>{{$order->zip}}</td>
+                                <td>{{$order->created_at}}</td>
+                                <td>{{$order->delivered_date}}</td>
+                                <td>{{$order->canceled_date}}</td>
+                                <td colspan="5">
+                                    @if($order->status == 'delivered')
+                                        <span class="badge bg-success">Delivered</span>
+                                    @elseif($order->status == 'canceled')
+                                        <span class="badge bg-danger">Canceled</span>
+                                    @else
+                                        <span class="badge bg-warning">Ordered</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -77,18 +79,18 @@
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-hover table-order-items">
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th class="text-center">Price</th>
-                                <th class="text-center">Quantity</th>
-                                <th class="text-center">SKU</th>
-                                <th class="text-center">Category</th>
-                                <th class="text-center">Brand</th>
-                                <th class="text-center">Options</th>
-                                <th class="text-center">Return Status</th>
-                                <th class="text-center">Action</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>SKU</th>
+                                <th>Category</th>
+                                <th>Brand</th>
+                                <th>Options</th>
+                                <th>Return Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -104,15 +106,15 @@
                                                 target="_blank" class="body-title-2">{{$item->product->name}}</a>
                                         </div>
                                     </td>
-                                    <td class="text-center">IDR{{$item->price}}</td>
-                                    <td class="text-center">{{$item->quantity}}</td>
-                                    <td class="text-center">{{$item->product->SKU}}</td>
-                                    <td class="text-center">{{$item->product->category->name}}</td>
-                                    <td class="text-center">{{$item->product->brand->name}}</td>
-                                    <td class="text-center">{{$item->options}}</td>
-                                    <td class="text-center">{{$item->rstatus == 0 ? "No" : "Yes"}}</td>
-                                    <td class="text-center">
-                                        <div class="list-icon-function view-icon">
+                                    <td>{{formatRupiah($item->price)}}</td>
+                                    <td>{{$item->quantity}}</td>
+                                    <td>{{$item->product->SKU}}</td>
+                                    <td>{{$item->product->category->name}}</td>
+                                    <td>{{$item->product->brand->name}}</td>
+                                    <td>{{$item->options}}</td>
+                                    <td>{{$item->rstatus == 0 ? "No" : "Yes"}}</td>
+                                    <td>
+                                        <div class="list-icon-function">
                                             <div class="item eye">
                                                 <i class="icon-eye"></i>
                                             </div>
@@ -149,22 +151,24 @@
             <div class="wg-box mt-5">
                 <h5>Transactions</h5>
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-transaction">
-                        <tbody>
+                    <table class="table table-striped table-hover table-transaction">
+                        <thead>
                             <tr>
                                 <th>Subtotal</th>
-                                <td>IDR {{$order->subtotal}}</td>
                                 <th>Tax</th>
-                                <td>IDR {{$order->tax}}</td>
                                 <th>Discount</th>
-                                <td>IDR {{$order->discount}}</td>
-                            </tr>
-                            <tr>
                                 <th>Total</th>
-                                <td>IDR {{$order->total}}</td>
                                 <th>Payment Mode</th>
-                                <td>{{$transaction->mode}}</td>
                                 <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{formatRupiah($order->subtotal)}}</td>
+                                <td>{{formatRupiah($order->tax)}}</td>
+                                <td>{{formatRupiah($order->discount)}}</td>
+                                <td>{{formatRupiah($order->total)}}</td>
+                                <td>{{$transaction->mode}}</td>
                                 <td>
                                     @if($transaction->status == 'approved')
                                         <span class="badge bg-success">Approved</span>

@@ -6,11 +6,6 @@
             padding-top: 90px !important;
         }
 
-        .pr-6px {
-            padding-right: 6px;
-            text-transform: uppercase;
-        }
-
         .my-account .page-title {
             font-size: 1.5rem;
             font-weight: 700;
@@ -115,7 +110,7 @@
                                     <h5>Ordered Details</h5>
                                 </div>
                                 <div class="col-6 text-right">
-                                    <a class="btn btn-sm btn-danger" href="{{route('user.orders')}}">Back</a>
+                                    <a class="btn btn-sm btn-primary" href="{{route('user.orders')}}">Back</a>
                                 </div>
                             </div>
                         </div>
@@ -192,7 +187,7 @@
                                                         target="_blank" class="body-title-2">{{$item->product->name}}</a>
                                                 </div>
                                             </td>
-                                            <td class="text-center">IDR{{$item->price}}</td>
+                                            <td class="text-center">{{formatRupiah($item->price)}}</td>
                                             <td class="text-center">{{$item->quantity}}</td>
                                             <td class="text-center">{{$item->product->SKU}}</td>
                                             <td class="text-center">{{$item->product->category->name}}</td>
@@ -240,15 +235,15 @@
                             <tbody>
                                 <tr>
                                     <th>Subtotal</th>
-                                    <td>IDR{{$order->subtotal}}</td>
+                                    <td>{{formatRupiah($order->subtotal)}}</td>
                                     <th>Tax</th>
-                                    <td>IDR{{$order->tax}}</td>
+                                    <td>{{formatRupiah($order->tax)}}</td>
                                     <th>Discount</th>
-                                    <td>IDR{{$order->discount}}</td>
+                                    <td>{{formatRupiah($order->discount)}}</td>
                                 </tr>
                                 <tr>
                                     <th>Total</th>
-                                    <td>IDR{{$order->total}}</td>
+                                    <td>{{formatRupiah($order->total)}}</td>
                                     <th>Payment Mode</th>
                                     <td>{{$transaction->mode}}</td>
                                     <th>Status</th>

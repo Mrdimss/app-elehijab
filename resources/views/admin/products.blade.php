@@ -46,7 +46,7 @@
                                     <th>No</th>
                                     <th>Name</th>
                                     <th>Price</th>
-                                    <th>SalePrice</th>
+                                    <th>Sale Price</th>
                                     <th>SKU</th>
                                     <th>Category</th>
                                     <th>Brand</th>
@@ -70,8 +70,8 @@
                                                 <div class="text-tiny mt-3">{{$product->slug}}</div>
                                             </div>
                                         </td>
-                                        <td>IDR {{$product->regular_price}}</td>
-                                        <td>IDR {{$product->sale_price}}</td>
+                                        <td>{{formatRupiah($product->regular_price)}}</td>
+                                        <td>{{ formatRupiah($product->sale_price) }}</td>
                                         <td>{{$product->SKU}}</td>
                                         <td>{{$product->category->name}}</td>
                                         <td>{{$product->brand->name}}</td>

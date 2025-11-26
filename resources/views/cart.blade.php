@@ -2,11 +2,11 @@
 @section('content')
   <style>
     .text-success {
-      color: #278c04 !important
+      color: #278c04 !important;
     }
 
-    .text-danger {
-      color: rgb(212, 0, 0) !important
+    .text-danger .coupon-remove {
+      color: rgb(212, 0, 0) !important;
     }
   </style>
 
@@ -70,7 +70,7 @@
                       </div>
                     </td>
                     <td>
-                      <span class="shopping-cart__product-price">IDR {{$item->price}}</span>
+                      <span class="shopping-cart__product-price">{{ formatRupiah($item->price) }}</span>
                     </td>
                     <td>
                       <div class="qty-control position-relative">
@@ -89,7 +89,7 @@
                       </div>
                     </td>
                     <td>
-                      <span class="shopping-cart__subtotal">IDR {{$item->subTotal()}}</span>
+                      <span class="shopping-cart__subtotal">Rp {{ $item->subTotal() }}</span>
                     </td>
                     <td>
                       <form method="POST" action="{{route('cart.item.remove', ['rowId' => $item->rowId])}}">
@@ -113,8 +113,8 @@
                   @csrf
                   <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code"
                     value="">
-                  <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
-                    value="APPLY COUPON">
+                  <input class="btn-coupon fw-medium position-absolute px-4" type="submit"
+                    value="APPLY">
                 </form>
               @else
                 <form action="{{ route('cart.coupon.remove') }}" method="POST" class="position-relative bg-body">
@@ -122,8 +122,8 @@
                   @method('DELETE')
                   <input class="form-control" type="text" name="coupon_code" placeholder="Coupon Code"
                     value="@if(Session::has('coupon')) {{ Session::get('coupon')['code'] }} Applied! @endif">
-                  <input class="btn-link fw-medium position-absolute top-0 end-0 h-100 px-4" type="submit"
-                    value="REMOVE COUPON">
+                  <input class="btn-coupon fw-medium position-absolute px-4" type="submit"
+                    value="REMOVE">
                 </form>
               @endif
 
@@ -151,15 +151,15 @@
                     <tbody>
                       <tr>
                         <th>Subtotal</th>
-                        <td>IDR {{Cart::instance('cart')->subtotal()}}</td>
+                        <td>Rp {{ Cart::instance('cart')->subtotal() }}</td>
                       </tr>
                       <tr>
                         <th>Discount {{ Session::get('coupon')['code'] }}</th>
-                        <td>IDR {{ Session::get('discounts')['discount'] }}</td>
+                        <td>{{ formatRupiah(Session::get('discounts')['discount']) }}</td>
                       </tr>
                       <tr>
                         <th>Subtotal After Discount</th>
-                        <td>IDR {{ Session::get('discounts')['subtotal'] }}</td>
+                        <td>{{ formatRupiah(Session::get('discounts')['subtotal']) }}</td>
                       </tr>
                       <tr>
                         <th>Shipping</th>
@@ -167,11 +167,11 @@
                       </tr>
                       <tr>
                         <th>TAX</th>
-                        <td>IDR {{ Session::get('discounts')['tax'] }}</td>
+                        <td>{{ formatRupiah(Session::get('discounts')['tax']) }}</td>
                       </tr>
                       <tr>
                         <th>Total</th>
-                        <td>IDR {{ Session::get('discounts')['total'] }}</td>
+                        <td>{{ formatRupiah(Session::get('discounts')['total']) }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -180,7 +180,7 @@
                     <tbody>
                       <tr>
                         <th>Subtotal</th>
-                        <td>IDR {{Cart::instance('cart')->subtotal()}}</td>
+                        <td>Rp {{Cart::instance('cart')->subtotal()}}</td>
                       </tr>
                       <tr>
                         <th>Shipping</th>
@@ -188,11 +188,11 @@
                       </tr>
                       <tr>
                         <th>TAX</th>
-                        <td>IDR {{Cart::instance('cart')->tax()}}</td>
+                        <td>Rp {{Cart::instance('cart')->tax()}}</td>
                       </tr>
                       <tr>
                         <th>Total</th>
-                        <td>IDR {{Cart::instance('cart')->total()}}</td>
+                        <td>Rp {{Cart::instance('cart')->total()}}</td>
                       </tr>
                     </tbody>
                   </table>

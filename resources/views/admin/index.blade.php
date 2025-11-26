@@ -30,7 +30,7 @@
                                     </div>
                                     <div>
                                         <div class="body-text mb-2">Total Amount</div>
-                                        <h4>{{ $dashboardDatas[0]->TotalAmount }}</h4>
+                                        <h4>{{ formatRupiah($dashboardDatas[0]->TotalAmount) }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                                     </div>
                                     <div>
                                         <div class="body-text mb-2">Pending Orders Amount</div>
-                                        <h4>{{ $dashboardDatas[0]->TotalOrderedAmount }}</h4>
+                                        <h4>{{ formatRupiah($dashboardDatas[0]->TotalOrderedAmount) }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@
                                     </div>
                                     <div>
                                         <div class="body-text mb-2">Delivered Orders Amount</div>
-                                        <h4>{{ $dashboardDatas[0]->TotalDeliveredAmount }}</h4>
+                                        <h4>{{ formatRupiah($dashboardDatas[0]->TotalDeliveredAmount) }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@
                                     </div>
                                     <div>
                                         <div class="body-text mb-2">Canceled Orders Amount</div>
-                                        <h4>{{ $dashboardDatas[0]->TotalCanceledAmount }}</h4>
+                                        <h4>{{ formatRupiah($dashboardDatas[0]->TotalCanceledAmount) }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -146,7 +146,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap10">
-                                <h4>Rp {{ $totalAmount }}</h4>
+                                <h4>{{ formatRupiah($totalAmount) }}</h4>
                             </div>
                         </div>
                         <div>
@@ -157,7 +157,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap10">
-                                <h4>Rp {{ $totalOrderedAmount }}</h4>
+                                <h4>{{ formatRupiah($totalOrderedAmount) }}</h4>
                             </div>
                         </div>
                         <div>
@@ -168,7 +168,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap10">
-                                <h4>Rp {{ $totalDeliveredAmount }}</h4>
+                                <h4>{{ formatRupiah($totalDeliveredAmount) }}</h4>
                             </div>
                         </div>
                         <div>
@@ -179,7 +179,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap10">
-                                <h4>Rp {{ $totalCanceledAmount }}</h4>
+                                <h4>{{ formatRupiah($totalCanceledAmount) }}</h4>
                             </div>
                         </div>
                     </div>
@@ -222,9 +222,9 @@
                                             <th>{{$order->id}}</th>
                                             <td>{{$order->name}}</td>
                                             <td>{{$order->phone}}</td>
-                                            <td>IDR {{$order->subtotal}}</td>
-                                            <td>IDR {{$order->tax}}</td>
-                                            <td>IDR {{$order->total}}</td>
+                                            <td>{{formatRupiah($order->subtotal)}}</td>
+                                            <td>{{formatRupiah($order->tax)}}</td>
+                                            <td>{{formatRupiah($order->total)}}</td>
                                             <td>
                                                 @if($order->status == 'delivered')
                                                     <span class="badge bg-success">Delivered</span>

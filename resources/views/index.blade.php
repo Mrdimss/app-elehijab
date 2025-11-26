@@ -213,10 +213,10 @@
                         <div class="product-card__price d-flex">
                           <span class="money price text-secondary">
                             @if ($sproduct->sale_price)
-                              <s class="reg-price">IDR {{$sproduct->regular_price}}</s><br> 
-                              IDR {{$sproduct->sale_price}}
+                              <s class="reg-price">{{ formatRupiah($sproduct->regular_price) }}</s><br> 
+                              {{ formatRupiah($sproduct->sale_price) }}
                             @else
-                              IDR {{$sproduct->regular_price}}
+                              {{ formatRupiah($sproduct->regular_price) }}
                             @endif
                           </span>
                         </div>
@@ -286,9 +286,9 @@
                   <div class="product-card__price d-flex align-items-center">
                     <span class="money price text-secondary">
                       @if ($fproduct->sale_price)
-                        <s class="reg-price">IDR {{$fproduct->regular_price}} </s> IDR {{$fproduct->sale_price}}
+                        <s class="reg-price">{{ formatRupiah($sproduct->regular_price) }} </s> {{ formatRupiah($sproduct->sale_price) }}
                       @else
-                        IDR {{$fproduct->regular_price}}
+                        {{ formatRupiah($sproduct->regular_price) }}
                       @endif
                     </span>
                   </div>

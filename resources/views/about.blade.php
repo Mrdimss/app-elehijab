@@ -15,14 +15,12 @@
                 </p>
                 <div class="mw-930">
                     <h3 class="mb-4">OUR STORY</h3>
-                    <p class="fs-6 fw-medium mb-4">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                        deserunt mollit anim id est laborum.</p>
-                    <p class="mb-4">Saw wherein fruitful good days image them, midst, waters upon, saw. Seas lights seasons.
-                        Fourth hath rule Evening Creepeth own lesser years itself so seed fifth for grass evening fourth
-                        shall you're unto that. Had. Female replenish for yielding so saw all one to yielding grass you'll air sea
-                        it, open waters subdue, hath. Brought second Made. Be. Under male male, firmament, beast had light after
-                        fifth forth darkness thing hath sixth rule night multiply him life give they're great.</p>
+                    <p class="fs-6 fw-medium mb-4">El . é Hijab adalah brand hijab modern yang menghadirkan gaya anggun, simpel, dan penuh percaya diri. 
+                        Logo dengan tipografi serif tegas-elegan mencerminkan karakter perempuan yang lembut namun kuat.</p>
+                    <p class="mb-4">Titik di antara “El . é” menjadi simbol keseimbangan antara kesederhanaan dan keyakinan diri. Warna hitam 
+                        memberi kesan timeless, profesional, dan mudah dikenali. Melalui slogan “Style With Your Confidence”, El . é Hijab menegaskan bahwa 
+                        hijab bukan hanya fashion, tetapi cara mengekspresikan diri. Dengan bahan nyaman, desain simple-elegan, dan warna lembut, brand ini 
+                        hadir untuk mendukung perempuan tampil maksimal tanpa meninggalkan kesopanan dan jati diri.</p>
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <h5 class="mb-3">Our Mission</h5>
@@ -43,10 +41,11 @@
                     </div>
                     <div class="content-wrapper col-lg-6 px-lg-4">
                         <h5 class="mb-3">The Company</h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet sapien dignissim a elementum.
-                            Sociis metus, hendrerit mauris id in. Quis sit sit ultrices tincidunt euismod luctus diam. Turpis sodales orci
-                            etiam phasellus lacus id leo. Amet turpis nunc, nulla massa est viverra interdum. Praesent auctor
-                            nulla morbi non posuere mattis. Arcu eu id maecenas cras.</p>
+                        <p>El . é Hijab adalah brand hijab modern yang menghadirkan gaya anggun, simpel, dan penuh percaya diri. 
+                            Logo dengan tipografi serif tegas-elegan mencerminkan karakter perempuan yang lembut namun kuat. 
+                            Titik di antara “El . é” menjadi simbol keseimbangan antara kesederhanaan dan keyakinan diri. Warna hitam 
+                            memberi kesan timeless, profesional, dan mudah dikenali. Melalui slogan “Style With Your Confidence”, 
+                            El . é Hijab menegaskan bahwa hijab bukan hanya fashion, tetapi cara mengekspresikan diri.</p>
                     </div>
                 </div>
             </div>

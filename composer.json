@@ -27,7 +27,11 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/RupiahHelper.php",
+            "app/Helpers/CleanNumber.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

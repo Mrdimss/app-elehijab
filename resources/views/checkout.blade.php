@@ -164,15 +164,15 @@
                                         <tbody>
                                             <tr>
                                                 <th>Subtotal</th>
-                                                <td class="text-right">IDR {{Cart::instance('cart')->subtotal()}}</td>
+                                                <td class="text-right">Rp {{Cart::instance('cart')->subtotal()}}</td>
                                             </tr>
                                             <tr>
                                                 <th>Discount {{ Session::get('coupon')['code'] }}</th>
-                                                <td class="text-right">IDR {{ Session::get('discounts')['discount'] }}</td>
+                                                <td class="text-right">{{ formatRupiah(Session::get('discounts')['discount']) }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Subtotal After Discount</th>
-                                                <td class="text-right">IDR {{ Session::get('discounts')['subtotal'] }}</td>
+                                                <td class="text-right">{{ formatRupiah(Session::get('discounts')['subtotal']) }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Shipping</th>
@@ -180,11 +180,11 @@
                                             </tr>
                                             <tr>
                                                 <th>TAX</th>
-                                                <td class="text-right">IDR {{ Session::get('discounts')['tax'] }}</td>
+                                                <td class="text-right">{{ formatRupiah(Session::get('discounts')['tax']) }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Total</th>
-                                                <td class="text-right">IDR {{ Session::get('discounts')['total'] }}</td>
+                                                <td class="text-right">{{ formatRupiah(Session::get('discounts')['total']) }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -193,7 +193,7 @@
                                         <tbody>
                                             <tr>
                                                 <th>Subtotal</th>
-                                                <td class="text-right">IDR {{ Cart::instance('cart')->subtotal() }}</td>
+                                                <td class="text-right">Rp {{ Cart::instance('cart')->subtotal() }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Shipping</th>
@@ -201,11 +201,11 @@
                                             </tr>
                                             <tr>
                                                 <th>TAX</th>
-                                                <td class="text-right">IDR {{ Cart::instance('cart')->tax() }}</td>
+                                                <td class="text-right">Rp {{ Cart::instance('cart')->tax() }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Total</th>
-                                                <td class="text-right">IDR {{ Cart::instance('cart')->total() }}</td>
+                                                <td class="text-right">Rp {{ Cart::instance('cart')->total() }}</td>
                                             </tr>
                                         </tbody>
                                     </table>

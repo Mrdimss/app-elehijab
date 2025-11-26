@@ -60,9 +60,9 @@
                                         <th>{{$order->id}}</th>
                                         <td>{{$order->name}}</td>
                                         <td>{{$order->phone}}</td>
-                                        <td>IDR {{$order->subtotal}}</td>
-                                        <td>IDR {{$order->tax}}</td>
-                                        <td>IDR {{$order->total}}</td>
+                                        <td>{{formatRupiah($order->subtotal)}}</td>
+                                        <td>{{formatRupiah($order->tax)}}</td>
+                                        <td>{{formatRupiah($order->total)}}</td>
                                         <td>
                                             @if($order->status == 'delivered')
                                                 <span class="badge bg-success">Delivered</span>

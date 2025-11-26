@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<main class="pt-90">
+  <main class="pt-90">
     <div class="mb-4 pb-4"></div>
     <section class="shop-checkout container">
       <h2 class="page-title">Order Received</h2>
@@ -49,7 +49,7 @@
           </div>
           <div class="order-info__item">
             <label>Total</label>
-            <span>IDR{{$order->total}}</span>
+            <span>{{formatRupiah($order->total)}}</span>
           </div>
           <div class="order-info__item">
             <label>Paymetn Method</label>
@@ -73,7 +73,7 @@
                       {{$item->product->name}} x {{$item->quantity}}
                     </td>
                     <td class="text-right">
-                      IDR{{$item->price}}
+                      {{formatRupiah($item->price)}}
                     </td>
                   </tr>
                 @endforeach
@@ -83,11 +83,11 @@
               <tbody>
                 <tr>
                   <th>DISCOUNT</th>
-                  <td class="text-right">IDR{{$order->discount}}</td>
+                  <td class="text-right">{{formatRupiah($order->discount)}}</td>
                 </tr>
                 <tr>
                   <th>SUBTOTAL</th>
-                  <td class="text-right">IDR{{$order->subtotal}}</td>
+                  <td class="text-right">{{formatRupiah($order->subtotal)}}</td>
                 </tr>
                 <tr>
                   <th>SHIPPING</th>
@@ -95,11 +95,11 @@
                 </tr>
                 <tr>
                   <th>TAX</th>
-                  <td class="text-right">IDR{{$order->tax}}</td>
+                  <td class="text-right">{{formatRupiah($order->tax)}}</td>
                 </tr>
                 <tr>
                   <th>TOTAL</th>
-                  <td class="text-right">IDR{{$order->total}}</td>
+                  <td class="text-right">{{formatRupiah($order->total)}}</td>
                 </tr>
               </tbody>
             </table>
@@ -107,5 +107,5 @@
         </div>
       </div>
     </section>
-</main>
+  </main>
 @endsection

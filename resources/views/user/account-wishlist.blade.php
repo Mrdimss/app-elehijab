@@ -52,7 +52,7 @@
                                                 <p class="pc__category">{{ $item->category }}</p>
                                                 <h6 class="pc__title">{{ $item->name }}</h6>
                                                 <div class="product-card__price d-flex">
-                                                    <span class="money price">IDR {{ $item->price }}</span>
+                                                    <span class="money price">{{ formatRupiah($item->price) }}</span>
                                                 </div>
 
                                                 <button

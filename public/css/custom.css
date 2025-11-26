@@ -365,6 +365,100 @@ body {
     width: 150px;
 }
 
+/* Custom Table Order Details */
+.table-responsive.table-order-details>* {
+    min-width: 960px;
+}
+
+.table-order-details {
+    min-width: 720px;
+    border-radius: 10px;
+}
+
+.table-order-details th:nth-child(2),
+.table-order-details td:nth-child(2) {
+    width: 180px;
+    height: 80px;
+}
+
+.table-order-details th:nth-child(3),
+.table-order-details td:nth-child(3),
+.table-order-details th:nth-child(4),
+.table-order-details td:nth-child(4),
+.table-order-details th:nth-child(5),
+.table-order-details td:nth-child(5),
+.table-order-details th:nth-child(6),
+.table-order-details td:nth-child(6),
+.table-order-details th:nth-child(7),
+.table-order-details td:nth-child(7) {
+    width: 150px;
+}
+
+/* Custom Table Order Items */
+.table-responsive.table-order-items>* {
+    min-width: 1490px;
+}
+
+.table-order-items {
+    min-width: 1280px;
+    border-radius: 10px;
+}
+
+.table-order-items th:nth-child(1),
+.table-order-items td:nth-child(1) {
+    width: 280px;
+    height: 80px;
+    justify-content: start;
+    align-items: center;
+}
+
+.table-order-items th:nth-child(2),
+.table-order-items td:nth-child(2) {
+    width: 160px;
+}
+
+.table-order-items th:nth-child(3),
+.table-order-items td:nth-child(3),
+.table-order-items th:nth-child(4),
+.table-order-items td:nth-child(4) {
+    width: 130px;
+}
+
+.table-order-items th:nth-child(5),
+.table-order-items td:nth-child(5) {
+    width: 180px;
+}
+
+.table-order-items th:nth-child(6),
+.table-order-items td:nth-child(6),
+.table-order-items th:nth-child(7),
+.table-order-items td:nth-child(7),
+.table-order-items th:nth-child(8),
+.table-order-items td:nth-child(8) {
+    width: 150px;
+}
+
+.table-order-items th:nth-child(9),
+.table-order-items td:nth-child(9) {
+    width: 120px;
+}
+
+/* Custom Table Order Transaction */
+.table-responsive.table-transaction>* {
+    min-width: 840px;
+}
+
+.table-transaction {
+    min-width: 720px;
+    border-radius: 10px;
+}
+
+.table-transaction th,
+.table-transaction td {
+    width: 120px;
+    height: 80px;
+}
+
 .pname {
     display: flex;
     gap: 13px;

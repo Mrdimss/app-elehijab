@@ -78,11 +78,11 @@
   --bs-success: #def2d7;
   --bs-info: #cde9f6;
   --bs-warning: #f7f3d7;
-  --bs-danger: #ecc8c5;
+  --bs-danger: #f4dedc;
   --bs-light: #e4e4e4;
   --bs-lighter: #faf9f8;
   --bs-dark: #222222;
-  --bs-red: #c32929;
+  --bs-red: #be0808;
   --bs-beige: #b9a16b;
   --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -9043,14 +9043,18 @@ img {
   color: #fff; }
 
 .btn-danger {
-  color: #000;
-  background-color: #ecc8c5;
-  border-color: #ecc8c5;
-  box-shadow: none; }
+  color: var(--bs-red);
+  background-color: var(--bs-danger);
+  border-color: var(--bs-danger);
+  box-shadow: none;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border-radius: 12px;}
   .btn-danger:hover {
-    color: #000;
-    background-color: #efd0ce;
-    border-color: #eececb; }
+    color: #fff;
+    background-color: var(--bs-red);
+    border-color: var(--bs-red); }
   .btn-check:focus + .btn-danger, .btn-danger:focus {
     color: #000;
     background-color: #efd0ce;
@@ -9234,7 +9238,8 @@ img {
   color: #222222;
   background-color: #e4e4e4;
   border-color: #e4e4e4;
-  box-shadow: none; }
+  box-shadow: none;
+  border-radius: 15px; }
   .btn-light:hover {
     color: #222222;
     background-color: #e7e7e7;
@@ -9274,6 +9279,39 @@ img {
   .btn-outline-light:disabled, .btn-outline-light.disabled {
     color: #222222;
     background-color: transparent; }
+
+.btn-coupon {
+  display: inline-block;
+  position: relative;
+  top: 10%;
+  right: 1.5%;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  width: 40%;
+  height: 80%;
+  background-color: #222222;
+  color: #e4e4e4;
+  font-weight: 400;
+  text-decoration: none;
+  transition: transform 0.2s ease-in-out; }
+  .btn-coupon:hover {
+    transform: scale(0.9); }
+  .btn-coupon:disabled, .btn-coupon.disabled {
+    color: #6c757d; }
+  .btn-coupon:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    max-width: 100%;
+    height: 2px;
+    transition: width 0.28s cubic-bezier(0.47, 0, 0.745, 0.715);
+    background-color: currentColor; }
+  .btn-coupon:hover:after {
+    width: 3.125rem; }
 
 .btn-link {
   display: inline-block;
@@ -12280,7 +12318,8 @@ textarea.form-control-lg {
   display: flex;
   padding: 0.25rem 0.5rem;
   text-decoration: none;
-  color: #222222; }
+  color: #222222; 
+  gap: 0.7rem;}
   .header-tools__item .flaticon::before {
     display: block;
     line-height: 1; }
@@ -14439,7 +14478,10 @@ button.js-add-wishlist.active .flaticon.flaticon-heart, a.add-to-wishlist.active
   .shopping-cart__totals-wrapper .btn-checkout {
     width: 100%;
     height: 3.75rem;
-    font-size: 0.875rem; }
+    font-size: 0.875rem;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
   .shopping-cart__totals {
     border: 1px solid #222;
     margin-bottom: 1.25rem;
@@ -14621,7 +14663,10 @@ button.js-add-wishlist.active .flaticon.flaticon-heart, a.add-to-wishlist.active
   .checkout-form .checkout__totals-wrapper .btn-checkout {
     width: 100%;
     height: 3.75rem;
-    font-size: 0.875rem; }
+    font-size: 0.875rem;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
   .checkout-form .checkout__payment-methods {
     border: 1px solid #e4e4e4;
     margin-bottom: 1.25rem;

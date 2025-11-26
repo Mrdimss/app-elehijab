@@ -16,6 +16,10 @@
   .filled-heart{
     color: orange;
   }
+  .reg-price{
+      font-size: .8em;
+      color: rgb(212, 0, 0);
+    }
 </style>
 <main class="pt-90">
     <section class="shop-main container d-flex pt-4 pt-xl-5">
@@ -63,7 +67,7 @@
         </div>
 
 
-        <div class="accordion" id="color-filters">
+        {{-- <div class="accordion" id="color-filters">
           <div class="accordion-item mb-4 pb-3">
             <h5 class="accordion-header" id="accordion-heading-1">
               <button class="accordion-button p-0 border-0 fs-5 text-uppercase" type="button" data-bs-toggle="collapse"
@@ -95,7 +99,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> --}}
 
         {{-- <div class="accordion" id="size-filters">
           <div class="accordion-item mb-4 pb-3">
@@ -186,11 +190,11 @@
               <div class="price-range__info d-flex align-items-center mt-2">
                 <div class="me-auto">
                   <span class="text-secondary">Min Price: </span>
-                  <span class="price-range__min">IDR 1.000</span>
+                  <span class="price-range__min">Rp 1.000</span>
                 </div>
                 <div>
                   <span class="text-secondary">Max Price: </span>
-                  <span class="price-range__max">IDR 500.000</span>
+                  <span class="price-range__max">Rp 500.000</span>
                 </div>
               </div>
             </div>
@@ -220,14 +224,14 @@
                   <div class="slideshow-text container p-3 p-xl-5">
                     <h2
                       class="text-uppercase section-title fw-normal mb-3 animate animate_fade animate_btt animate_delay-2">
-                      Women's <br /><strong>ACCESSORIES</strong></h2>
+                      Hijab <br /><strong>WANITA</strong></h2>
                     <p class="mb-0 animate animate_fade animate_btt animate_delay-5">Accessories are the best way to
                       update your look. Add a title edge with new styles and new colors, or go for timeless pieces.</h6>
                   </div>
                 </div>
                 <div class="slide-split_media position-relative">
                   <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                    <img loading="lazy" src="assets/images/shop/shop_banner3.jpg" width="630" height="450"
+                    <img loading="lazy" src="{{ asset('uploads/products/1763460213-1.jpg') }}" width="630" height="450"
                       alt="Women's accessories" class="slideshow-bg__img object-fit-cover" />
                   </div>
                 </div>
@@ -374,9 +378,9 @@
                 <div class="product-card__price d-flex">
                   <span class="money price">
                     @if ($product->sale_price)
-                        <s>IDR {{$product->regular_price}} </s> IDR {{$product->sale_price}}
+                        <s class="reg-price">{{ formatRupiah($product->regular_price) }} </s> {{ formatRupiah($product->sale_price) }}
                     @else
-                        IDR {{$product->regular_price}}
+                        {{ formatRupiah($product->sale_price) }}
                     @endif
                   </span>
                 </div>

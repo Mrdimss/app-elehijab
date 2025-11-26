@@ -538,22 +538,51 @@ class AdminController extends Controller
 
     public function update_order_status(Request $request)
     {
-        $order = Order::find($request->order_id);
-        $order->status = $request->order_status;
+        $order = Order::findOrFail($request->order_id);
+        $oldStatus = $order->status;
+        $newStatus = $request->order_status;
 
-        if ($request->order_status == 'delivered') {
+        $order->status = $newStatus;
+
+        if ($newStatus === 'delivered') {
             $order->delivered_date = Carbon::now();
-        } elseif ($request->order_status == 'canceled') {
+        } elseif ($newStatus === 'canceled') {
             $order->canceled_date = Carbon::now();
         }
 
         $order->save();
 
-        if ($request->order_status == 'delivered') {
-            $transaction = Transaction::where('order_id', $request->order_id)->first();
-            $transaction->status = 'approved';
+        $orderItems = OrderItem::where('order_id', $order->id)->get();
 
-            $transaction->save();
+        // ===================================================
+        // 1. KURANGI STOK KETIKA DELIVERED
+        // ===================================================
+        if ($newStatus === 'delivered' && $oldStatus !== 'delivered') {
+            foreach ($orderItems as $item) {
+                $product = $item->product;
+                $product->quantity -= $item->quantity;
+                $product->save();
+            }
+        }
+
+        // ===================================================
+        // 2. KEMBALIKAN STOK KETIKA DIBATALKAN
+        // ===================================================
+        if ($newStatus === 'canceled') {
+            foreach ($orderItems as $item) {
+                $product = $item->product;
+                $product->quantity += $item->quantity;
+                $product->save();
+            }
+        }
+
+        // UPDATE TRANSACTION
+        if ($newStatus === 'delivered') {
+            $transaction = Transaction::where('order_id', $order->id)->first();
+            if ($transaction) {
+                $transaction->status = 'approved';
+                $transaction->save();
+            }
         }
 
         return back()->with('status', 'Order status changed!');
