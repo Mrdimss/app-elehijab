@@ -351,7 +351,7 @@
                         @yield('content')
 
                         <div class="bottom-page">
-                            <div class="body-text">Copyright © 2025 SurfsideMedia</div>
+                            <div class="copyright-text">Copyright ©2025 Group One E-Bussiness</div>
                         </div>
                     </div>
 

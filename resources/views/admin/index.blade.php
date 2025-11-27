@@ -8,136 +8,125 @@
                     <div class="w-half">
 
                         <div class="wg-chart-default mb-20">
+                            <div class="body-text mb-2 text-center">Total Orders</div>
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap14">
-                                    <div class="image ic-bg">
+                                    <div class="image ic-bg" style="color: #2275fc;">
                                         <i class="icon-shopping-bag"></i>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Total Orders</div>
-                                        <h4>{{ $dashboardDatas[0]->Total }}</h4>
+                                        <h4>{{ $dashboardDatas->Total }}</h4>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-
-                        <div class="wg-chart-default mb-20">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap14">
                                     <div class="image ic-bg">
-                                        <i class="icon-dollar-sign"></i>
+                                        <p style="color: #2275fc; font-weight: 700;">Rp</p>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Total Amount</div>
-                                        <h4>{{ formatRupiah($dashboardDatas[0]->TotalAmount) }}</h4>
+                                        <h4>{{ rupiah($dashboardDatas->TotalAmount) }}</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-
                         <div class="wg-chart-default mb-20">
+                            <div class="body-text mb-2 text-center">Pending Orders</div>
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap14">
-                                    <div class="image ic-bg">
+                                    <div class="image ic-bg" style="color: #FB923C;">
                                         <i class="icon-shopping-bag"></i>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Pending Orders</div>
-                                        <h4>{{ $dashboardDatas[0]->TotalOrdered }}</h4>
+                                        <h4>{{ $dashboardDatas->TotalOrdered }}</h4>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-
-                        <div class="wg-chart-default">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap14">
                                     <div class="image ic-bg">
-                                        <i class="icon-dollar-sign"></i>
+                                        <p style="color: #FB923C; font-weight: 700;">Rp</p>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Pending Orders Amount</div>
-                                        <h4>{{ formatRupiah($dashboardDatas[0]->TotalOrderedAmount) }}</h4>
+                                        <h4>{{ rupiah($dashboardDatas->TotalOrderedAmount) }}</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="w-half">
-
                         <div class="wg-chart-default mb-20">
+                            <div class="body-text mb-2 text-center uppercase">Delivered Orders</div>
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap14">
                                     <div class="image ic-bg">
+                                        <i class="icon-shopping-bag" style="color: #22C55E;"></i>
+                                    </div>
+                                    <div>
+                                        <h4>{{ $dashboardDatas->TotalDelivered }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap14">
+                                    <div class="image ic-bg">
+                                        <p style="color: #22C55E; font-weight: 700">Rp</p>
+                                    </div>
+                                    <div>
+                                        <h4>{{ rupiah($dashboardDatas->TotalDeliveredAmount) }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="wg-chart-default mb-20">
+                            <div class="body-text mb-2 text-center">Canceled Orders</div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap14">
+                                    <div class="image ic-bg" style="color: #EF4444;">
                                         <i class="icon-shopping-bag"></i>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Delivered Orders</div>
-                                        <h4>{{ $dashboardDatas[0]->TotalDelivered }}</h4>
+
+                                        <h4>{{ $dashboardDatas->TotalCanceled }}</h4>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-
-                        <div class="wg-chart-default mb-20">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap14">
                                     <div class="image ic-bg">
-                                        <i class="icon-dollar-sign"></i>
+                                        <p style="color: #EF4444; font-weight: 700;">Rp</p>
                                     </div>
                                     <div>
-                                        <div class="body-text mb-2">Delivered Orders Amount</div>
-                                        <h4>{{ formatRupiah($dashboardDatas[0]->TotalDeliveredAmount) }}</h4>
+                                        <h4>{{ rupiah($dashboardDatas->TotalCanceledAmount) }}</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
-                        <div class="wg-chart-default mb-20">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap14">
-                                    <div class="image ic-bg">
-                                        <i class="icon-shopping-bag"></i>
-                                    </div>
-                                    <div>
-                                        <div class="body-text mb-2">Canceled Orders</div>
-                                        <h4>{{ $dashboardDatas[0]->TotalCanceled }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="wg-chart-default">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap14">
-                                    <div class="image ic-bg">
-                                        <i class="icon-dollar-sign"></i>
-                                    </div>
-                                    <div>
-                                        <div class="body-text mb-2">Canceled Orders Amount</div>
-                                        <h4>{{ formatRupiah($dashboardDatas[0]->TotalCanceledAmount) }}</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-
                 </div>
 
                 <div class="wg-box">
-                    <div class="flex items-center justify-between">
-                        <h5>Monthly Revenue</h5>
+                    <div class="flex items-center justify-between ml-20">
+                        <h5>Monthly revenue</h5>
+                        <div class="dropdown default">
+                            {{-- <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <span class="icon-more"><i class="icon-more-horizontal"></i></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <a href="javascript:void(0);">This Week</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">Last Week</a>
+                                </li>
+                            </ul> --}}
+                        </div>
                     </div>
-                    <div class="flex flex-wrap gap40">
+                    <div class="flex flex-wrap gap40 ml-20">
                         <div>
                             <div class="mb-2">
                                 <div class="block-legend">
@@ -146,7 +135,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap10">
-                                <h4>{{ formatRupiah($totalAmount) }}</h4>
+                                <p style="font-weight: 700; font-size: 1.6em;">{{ formatRupiah($totalAmount) }}</p>
                             </div>
                         </div>
                         <div>
@@ -157,29 +146,29 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap10">
-                                <h4>{{ formatRupiah($totalOrderedAmount) }}</h4>
+                                <p style="font-weight: 700; font-size: 1.6em;">{{ formatRupiah($totalOrderedAmount) }}</p>
                             </div>
                         </div>
                         <div>
                             <div class="mb-2">
                                 <div class="block-legend">
-                                    <div class="dot t2"></div>
+                                    <div class="dot t3"></div>
                                     <div class="text-tiny">Delivered</div>
                                 </div>
                             </div>
                             <div class="flex items-center gap10">
-                                <h4>{{ formatRupiah($totalDeliveredAmount) }}</h4>
+                                <p style="font-weight: 700; font-size: 1.6em;">{{ formatRupiah($totalDeliveredAmount) }}</p>
                             </div>
                         </div>
                         <div>
                             <div class="mb-2">
                                 <div class="block-legend">
-                                    <div class="dot t2"></div>
+                                    <div class="dot t4"></div>
                                     <div class="text-tiny">Canceled</div>
                                 </div>
                             </div>
                             <div class="flex items-center gap10">
-                                <h4>{{ formatRupiah($totalCanceledAmount) }}</h4>
+                                <p style="font-weight: 700; font-size: 1.6em;">{{ formatRupiah($totalCanceledAmount) }}</p>
                             </div>
                         </div>
                     </div>
@@ -324,7 +313,7 @@
                         tooltip: {
                             y: {
                                 formatter: function (val) {
-                                    return "$ " + val + ""
+                                    return "Rp " + val + ""
                                 }
                             }
                         }

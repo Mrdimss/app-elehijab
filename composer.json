@@ -30,7 +30,8 @@
         },
         "files": [
             "app/Helpers/RupiahHelper.php",
-            "app/Helpers/CleanNumber.php"
+            "app/Helpers/CleanNumber.php",
+            "app/Helpers/Rupiah.php"
         ]
     },
     "autoload-dev": {

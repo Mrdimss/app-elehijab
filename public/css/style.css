@@ -754,6 +754,10 @@ h6, .h6 {
   margin-left: 6px !important;
 }
 
+.ml-20 {
+  margin-left: 20px !important;
+}
+
 .mt-3 {
   margin-top: 3px !important;
 }
@@ -959,7 +963,7 @@ a:hover, a:focus {
 }
 
 .text-tiny {
-  color: var(--Note);
+  color: var(--Body-Text);
   font-size: 12px;
   line-height: 15px;
 }
@@ -981,11 +985,34 @@ a:hover, a:focus {
   color: var(--Style);
 }
 
+.copyright-text {
+  color: var(--Body-Text);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
 .body-text {
   color: var(--Body-Text);
-  font-size: 14px;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 700;
   line-height: 20px;
+}
+
+.w-half:first-child .wg-chart-default:first-child .body-text{
+  color: var(--Main);
+}
+
+.w-half:first-child .wg-chart-default:last-child .body-text{
+  color: var(--Palette-Orange-400);
+}
+
+.w-half:last-child .wg-chart-default:first-child .body-text{
+  color: var(--Palette-Green-500);
+}
+
+.w-half:last-child .wg-chart-default:last-child .body-text{
+  color: var(--Palette-Red-500);
 }
 
 .icon-more {
@@ -1159,6 +1186,26 @@ a:hover, a:focus {
   line-height: 15px;
 }
 
+.w-half:first-child .wg-chart-default:first-child {
+  background-color: #e4edfb;
+  border: 1px solid var(--Main);
+}
+
+.w-half:first-child .wg-chart-default:last-child {
+  background-color: #f8eadd;
+  border: 1px solid #FB923C;
+}
+
+.w-half:last-child .wg-chart-default:first-child {
+  background-color: #dafbe6;
+  border: 1px solid #22C55E;
+}
+
+.w-half:last-child .wg-chart-default:last-child {
+  background-color: #fcd4d4;
+  border: 1px solid #EF4444;
+}
+
 .wg-chart-default {
   display: -webkit-box;
   display: -moz-box;
@@ -1169,7 +1216,6 @@ a:hover, a:focus {
   flex-direction: column;
   padding: 24px;
   border-radius: 14px;
-  background: var(--White);
   box-shadow: 0px 4px 24px 2px rgba(20, 25, 38, 0.05);
 }
 .wg-chart-default .image {
@@ -1177,9 +1223,15 @@ a:hover, a:focus {
   height: 52px;
   position: relative;
 }
+.wg-chart-default .image p {
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .wg-chart-default .image i {
   font-size: 22px;
-  color: var(--Main);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1657,13 +1709,13 @@ a:hover, a:focus {
   background-color: #2377FC;
 }
 .block-legend .dot.t2 {
-  background-color: #D3E4FE;
+  background-color: var(--Palette-Orange-400);
 }
 .block-legend .dot.t3 {
-  background-color: #FF5200;
+  background-color: var(--Palette-Green-500);
 }
 .block-legend .dot.t4 {
-  background-color: #8F77F3;
+  background-color: var(--Palette-Red-500);
 }
 .block-legend .dot-1 {
   width: 38px;

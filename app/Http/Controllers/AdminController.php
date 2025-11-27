@@ -25,44 +25,93 @@ class AdminController extends Controller
     //
     public function index()
     {
-        $orders = Order::orderBy('created_at', 'DESC')->get()->take(10);
-        $dashboardDatas = DB::select("Select sum(total) as TotalAmount,
-                                        sum(if(status='ordered', total, 0)) as TotalOrderedAmount,
-                                        sum(if(status='delivered', total, 0)) as TotalDeliveredAmount,
-                                        sum(if(status='canceled', total, 0)) as TotalCanceledAmount,
-                                        Count(*) as Total,
-                                        sum(if(status='ordered', 1, 0)) as TotalOrdered,
-                                        sum(if(status='delivered', 1, 0)) as TotalDelivered,
-                                        sum(if(status='canceled', 1, 0)) as TotalCanceled
-                                        From Orders
-                                    ");
+        $orders = Order::latest()->take(10)->get();
 
-        $monthlyDatas = DB::select("SELECT M.id as MonthNo, M.name as MonthName,
-            IFNULL(D.TotalAmount, 0) as TotalAmount,
-            IFNULL(D.TotalOrderedAmount, 0) as TotalOrderedAmount,
-            IFNULL(D.TotalDeliveredAmount, 0) as TotalDeliveredAmount,
-            IFNULL(D.TotalCanceledAmount, 0) as TotalCanceledAmount FROM month_names M
-            LEFT JOIN (SELECT DATE_FORMAT(created_at, '%b') As MonthName,
-            MONTH(created_at) as MonthNo,
-            sum(total) as TotalAmount,
-            sum(if(status='ordered',total,0)) as TotalOrderedAmount,
-            sum(if(status='delivered',total,0)) as TotalDeliveredAmount,
-            sum(if(status='canceled',total,0)) as TotalCanceledAmount
-            FROM Orders WHERE YEAR(created_at)=YEAR(NOW()) GROUP BY YEAR(created_at), MONTH(created_at), DATE_FORMAT(created_at, '%b')
-            Order By MONTH(created_at)) D On D.MonthNo=M.id");
+        // =====================
+        // 1. DASHBOARD SUMMARY (KOTAK ATAS)
+        // =====================
+        $dashboardDatas = DB::table('orders')
+            ->selectRaw("
+                SUM(total) AS TotalAmount,
+                SUM(CASE WHEN status='ordered' THEN total ELSE 0 END) AS TotalOrderedAmount,
+                SUM(CASE WHEN status='delivered' THEN total ELSE 0 END) AS TotalDeliveredAmount,
+                SUM(CASE WHEN status='canceled' THEN total ELSE 0 END) AS TotalCanceledAmount,
+                COUNT(*) AS Total,
+                SUM(status='ordered') AS TotalOrdered,
+                SUM(status='delivered') AS TotalDelivered,
+                SUM(status='canceled') AS TotalCanceled
+            ")
+            ->first();
 
-        $amountM = implode(',', collect($monthlyDatas)->pluck('TotalAmount')->toArray());
-        $orderedAmountM = implode(',', collect($monthlyDatas)->pluck('TotalOrderedAmount')->toArray());
-        $deliveredAmountM = implode(',', collect($monthlyDatas)->pluck('TotalDeliveredAmount')->toArray());
-        $canceledAmountM = implode(',', collect($monthlyDatas)->pluck('TotalCanceledAmount')->toArray());
+        // =====================
+        // 2. DATA GRAFIK BULANAN (PERBAIKAN)
+        // =====================
 
-        $totalAmount = collect($monthlyDatas)->sum('TotalAmount');
-        $totalOrderedAmount = collect($monthlyDatas)->sum('TotalOrderedAmount');
-        $totalDeliveredAmount = collect($monthlyDatas)->sum('TotalOrderedAmount');
-        $totalCanceledAmount = collect($monthlyDatas)->sum('TotalCanceledAmount');
+        // Ambil data tahun ini, dikelompokkan berdasarkan bulan (Hanya bulan yang ada transaksinya)
+        $monthlyStats = Order::selectRaw("
+            MONTH(created_at) as month,
+            SUM(total) as TotalAmount,
+            SUM(CASE WHEN status='ordered' THEN total ELSE 0 END) as TotalOrderedAmount,
+            SUM(CASE WHEN status='delivered' THEN total ELSE 0 END) as TotalDeliveredAmount,
+            SUM(CASE WHEN status='canceled' THEN total ELSE 0 END) as TotalCanceledAmount
+        ")
+            ->whereYear('created_at', Carbon::now()->year)
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->keyBy('month'); // Indexing array berdasarkan angka bulan (1-12)
+
+        // Siapkan array kosong untuk menampung data 1-12
+        $amountM_array = [];
+        $orderedM_array = [];
+        $deliveredM_array = [];
+        $canceledM_array = [];
+
+        // Loop dari bulan 1 (Januari) sampai 12 (Desember)
+        for ($i = 1; $i <= 12; $i++) {
+            if (isset($monthlyStats[$i])) {
+                // Jika bulan $i ada datanya di database, ambil nilainya
+                $amountM_array[] = $monthlyStats[$i]->TotalAmount;
+                $orderedM_array[] = $monthlyStats[$i]->TotalOrderedAmount;
+                $deliveredM_array[] = $monthlyStats[$i]->TotalDeliveredAmount;
+                $canceledM_array[] = $monthlyStats[$i]->TotalCanceledAmount;
+            } else {
+                // Jika bulan $i tidak ada transaksi, isi dengan 0
+                $amountM_array[] = 0;
+                $orderedM_array[] = 0;
+                $deliveredM_array[] = 0;
+                $canceledM_array[] = 0;
+            }
+        }
+
+        // =====================
+        // 3. KONVERSI KE STRING (UNTUK CHART JS)
+        // =====================
+        $amountM = implode(',', $amountM_array);
+        $orderedAmountM = implode(',', $orderedM_array);
+        $deliveredAmountM = implode(',', $deliveredM_array);
+        $canceledAmountM = implode(',', $canceledM_array);
+
+        // =====================
+        // 4. HITUNG TOTAL LEGEND (BAWAH GRAFIK)
+        // =====================
+        // Kita hitung ulang dari array yang sudah kita buat agar sinkron
+        $totalAmount = array_sum($amountM_array);
+        $totalOrderedAmount = array_sum($orderedM_array);
+        $totalDeliveredAmount = array_sum($deliveredM_array);
+        $totalCanceledAmount = array_sum($canceledM_array);
 
         return view('admin.index', compact(
-            'orders', 'dashboardDatas', 'amountM', 'orderedAmountM', 'deliveredAmountM', 'canceledAmountM', 'totalAmount', 'totalOrderedAmount', 'totalDeliveredAmount', 'totalCanceledAmount'
+            'orders',
+            'dashboardDatas',
+            'amountM',
+            'orderedAmountM',
+            'deliveredAmountM',
+            'canceledAmountM',
+            'totalAmount',
+            'totalOrderedAmount',
+            'totalDeliveredAmount',
+            'totalCanceledAmount'
         ));
     }
 
