@@ -994,7 +994,7 @@ a:hover, a:focus {
 
 .body-text {
   color: var(--Body-Text);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 20px;
 }

@@ -193,12 +193,12 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Status</th>
                                         <th>Name</th>
                                         <th>Phone</th>
                                         <th>Subtotal</th>
                                         <th>Tax</th>
                                         <th>Total</th>
-                                        <th>Status</th>
                                         <th>Order Date</th>
                                         <th>Total Items</th>
                                         <th>Delivered On</th>
@@ -209,11 +209,6 @@
                                     @foreach ($orders as $order)
                                         <tr>
                                             <th>{{$order->id}}</th>
-                                            <td>{{$order->name}}</td>
-                                            <td>{{$order->phone}}</td>
-                                            <td>{{formatRupiah($order->subtotal)}}</td>
-                                            <td>{{formatRupiah($order->tax)}}</td>
-                                            <td>{{formatRupiah($order->total)}}</td>
                                             <td>
                                                 @if($order->status == 'delivered')
                                                     <span class="badge bg-success">Delivered</span>
@@ -223,6 +218,11 @@
                                                     <span class="badge bg-warning">Ordered</span>
                                                 @endif
                                             </td>
+                                            <td>{{$order->name}}</td>
+                                            <td>{{$order->phone}}</td>
+                                            <td>{{formatRupiah($order->subtotal)}}</td>
+                                            <td>{{formatRupiah($order->tax)}}</td>
+                                            <td>{{formatRupiah($order->total)}}</td>
                                             <td>{{$order->created_at}}</td>
                                             <td>{{$order->orderItems->count()}}</td>
                                             <td>{{$order->delivered_date}}</td>
@@ -313,7 +313,7 @@
                         tooltip: {
                             y: {
                                 formatter: function (val) {
-                                    return "Rp " + val + ""
+                                    return "Rp " + val.toLocaleString("id-ID");
                                 }
                             }
                         }

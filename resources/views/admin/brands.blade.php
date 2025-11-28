@@ -120,6 +120,8 @@
 
     <script>
         $(document).ready(function () {
+            // === Fungsi Format Rupiah ===
+
             $('#search').on('keyup', function () {
                 let search = $(this).val();
 
@@ -147,7 +149,7 @@
                                             </div>
                                         </td>
                                         <td>${item.slug}</td>
-                                        <td><a href="#" target="_blank">0</a></td>
+                                        <td><a href="#" target="_blank">${item.products_count}</a></td>
                                         <td>
                                             <div class="list-icon-function">
                                                 <a href="/admin/brand/${item.id}/edit">

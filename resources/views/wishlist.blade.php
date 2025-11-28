@@ -36,7 +36,7 @@
                     </div>
                     </td>
                     <td>
-                    <span class="shopping-cart__product-price">IDR {{$item->price}}</span>
+                    <span class="shopping-cart__product-price">{{formatRupiah($item->price)}}</span>
                     </td>
                     <td>
                         {{$item->qty}}

@@ -312,7 +312,7 @@ class AdminController extends Controller
             'short_description' => 'required',
             'description' => 'required',
             'regular_price' => 'required',
-            'sale_price' => 'required',
+            'sale_price' => '',
             'SKU' => 'required',
             'stock_status' => 'required',
             'quantity' => 'required',
@@ -405,7 +405,7 @@ class AdminController extends Controller
             'short_description' => 'required',
             'description' => 'required',
             'regular_price' => 'required',
-            'sale_price' => 'required',
+            'sale_price' => '',
             'SKU' => 'required',
             'stock_status' => 'required',
             'featured' => 'required',
@@ -800,9 +800,13 @@ class AdminController extends Controller
     {
         $search = $request->input('search');
 
-        $brands = Brand::when($search, function ($query) use ($search) {
-            $query->where('name', 'LIKE', "%{$search}%")->orWhere('slug', 'LIKE', "%{$search}%");
-        })->orderBy('id', 'ASC')->get();
+        $brands = Brand::withCount('products')
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('slug', 'LIKE', "%{$search}%");
+            })
+            ->orderBy('id', 'ASC')
+            ->get();
 
         return response()->json($brands);
     }
@@ -811,9 +815,13 @@ class AdminController extends Controller
     {
         $search = $request->input('search');
 
-        $categories = Category::when($search, function ($query) use ($search) {
-            $query->where('name', 'LIKE', "%{$search}%")->orWhere('slug', 'LIKE', "%{$search}%");
-        })->orderBy('id', 'ASC')->get();
+        $categories = Category::withCount('products')
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('slug', 'LIKE', "%{$search}%");
+            })
+            ->orderBy('id', 'ASC')
+            ->get();
 
         return response()->json($categories);
     }
@@ -822,9 +830,13 @@ class AdminController extends Controller
     {
         $search = $request->input('search');
 
-        $order = Order::when($search, function ($query) use ($search) {
-            $query->where('name', 'LIKE', "%{$search}%")->orWhere('phone', 'LIKE', "%{$search}%");
-        })->orderBy('id', 'ASC')->get();
+        $order = Order::withCount('orderItems')
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('phone', 'LIKE', "%{$search}%");
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
 
         return response()->json($order);
     }

@@ -24,8 +24,8 @@
                     <div class="wg-filter flex-grow">
                         <form class="form-search">
                             <fieldset class="name">
-                                <input type="text" placeholder="Search here..." class="" id="search" name="name" tabindex="2" value=""
-                                    aria-required="true" required="" autocomplete="off">
+                                <input type="text" placeholder="Search here..." class="" id="search" name="name"
+                                    tabindex="2" value="" aria-required="true" required="" autocomplete="off">
                             </fieldset>
                             <div class="button-submit">
                                 <button class="" type="submit">
@@ -42,27 +42,22 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Status</th>
                                     <th>Name</th>
                                     <th>Phone</th>
                                     <th>Subtotal</th>
                                     <th>Tax</th>
                                     <th>Total</th>
-                                    <th>Status</th>
                                     <th>Order Date</th>
                                     <th>Items</th>
                                     <th>Delivered On</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody class="table-body">
+                            <tbody id="table-body">
                                 @foreach ($orders as $key => $order)
                                     <tr>
                                         <th>{{$order->id}}</th>
-                                        <td>{{$order->name}}</td>
-                                        <td>{{$order->phone}}</td>
-                                        <td>{{formatRupiah($order->subtotal)}}</td>
-                                        <td>{{formatRupiah($order->tax)}}</td>
-                                        <td>{{formatRupiah($order->total)}}</td>
                                         <td>
                                             @if($order->status == 'delivered')
                                                 <span class="badge bg-success">Delivered</span>
@@ -72,13 +67,18 @@
                                                 <span class="badge bg-warning">Ordered</span>
                                             @endif
                                         </td>
+                                        <td>{{$order->name}}</td>
+                                        <td>{{$order->phone}}</td>
+                                        <td>{{formatRupiah($order->subtotal)}}</td>
+                                        <td>{{formatRupiah($order->tax)}}</td>
+                                        <td>{{formatRupiah($order->total)}}</td>
                                         <td>{{$order->created_at}}</td>
                                         <td>{{$order->orderItems->count()}}</td>
                                         <td>
                                             @if ($order->status == 'delivered')
                                                 {{$order->delivered_date}}
                                             @else
-                                                -                                            
+                                                -
                                             @endif
                                         </td>
                                         <td>
@@ -108,73 +108,76 @@
 
 @push('scripts')
     <script>
-$(document).ready(function () {
-
-    $('#search').on('keyup', function () {
-        let search = $(this).val();
-
-        $.ajax({
-            url: "{{ route('admin.order.search') }}",
-            type: "GET",
-            data: { search: search },
-            success: function (data) {
-                let rows = '';
-
-                if (data.length === 0) {
-                    rows = `
-                        <tr>
-                            <td colspan="11" class="text-center">
-                                No orders found for "<b>${search}</b>"
-                            </td>
-                        </tr>`;
-                } else {
-                    data.forEach(item => {
-
-                        // status badge
-                        let statusBadge =
-                            item.status === 'delivered'
-                                ? `<span class="badge bg-success">Delivered</span>`
-                                : item.status === 'canceled'
-                                    ? `<span class="badge bg-danger">Canceled</span>`
-                                    : `<span class="badge bg-warning">Ordered</span>`;
-
-                        // count order items (pastikan controller return orderItems)
-                        let itemCount = item.orderItems ? item.orderItems.length : 0;
-
-                        rows += `
-                            <tr>
-                                <th>${item.id}</th>
-                                <td>${item.name}</td>
-                                <td>${item.phone}</td>
-                                <td>IDR ${item.subtotal}</td>
-                                <td>IDR ${item.tax}</td>
-                                <td>IDR ${item.total}</td>
-
-                                <td>${statusBadge}</td>
-
-                                <td>${item.created_at}</td>
-                                <td>${itemCount}</td>
-                                <td>${item.delivered_date ?? '-'}</td>
-
-                                <td>
-                                    <a href="/admin/order/${item.id}/details">
-                                        <div class="list-icon-function">
-                                            <div class="item eye">
-                                                <i class="icon-eye"></i>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </td>
-                            </tr>
-                        `;
-                    });
-                }
-                $('#table-body').html(rows);
+        $(document).ready(function () {
+            // === Fungsi Format Rupiah ===
+            function formatRupiahJS(angka) {
+                if (!angka) return "Rp 0";
+                return "Rp " + Number(angka).toLocaleString("id-ID");
             }
-        });
-    });
 
-});
-</script>
+            $('#search').on('keyup', function () {
+                let search = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('admin.order.search') }}",
+                    type: "GET",
+                    data: { search: search },
+                    success: function (data) {
+                        let rows = '';
+
+                        if (data.length === 0) {
+                            rows = `
+                            <tr>
+                                <td colspan="11" class="text-center">
+                                    No orders found for "<b>${search}</b>"
+                                </td>
+                            </tr>`;
+                        } else {
+                            data.forEach((item, index) => {
+
+                                // status badge
+                                let statusBadge =
+                                    item.status === 'delivered'
+                                        ? `<span class="badge bg-success">Delivered</span>`
+                                        : item.status === 'canceled'
+                                            ? `<span class="badge bg-danger">Canceled</span>`
+                                            : `<span class="badge bg-warning">Ordered</span>`;
+
+                                // count order items (pastikan controller return orderItems)
+                                let itemCount = item.orderItems ? item.orderItems.length : 0;
+
+                                rows += `
+                                <tr>
+                                    <th>${item.id}</th>
+                                    <td>${statusBadge}</td>
+                                    <td>${item.name}</td>
+                                    <td>${item.phone}</td>
+                                    <td>${formatRupiahJS(item.subtotal)}</td>
+                                    <td>${formatRupiahJS(item.tax)}</td>
+                                    <td>${formatRupiahJS(item.total)}</td>
+                                    <td>${item.created_at}</td>
+                                    <td>${itemCount}</td>
+                                    <td>${item.delivered_date ?? '-'}</td>
+
+                                    <td>
+                                        <a href="/admin/order/${item.id}/details">
+                                            <div class="list-icon-function">
+                                                <div class="item eye">
+                                                    <i class="icon-eye"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </td>
+                                </tr>
+                            `;
+                            });
+                        }
+                        $('#table-body').html(rows);
+                    }
+                });
+            });
+
+        });
+    </script>
 
 @endpush

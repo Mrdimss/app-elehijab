@@ -13,6 +13,6 @@ if (! function_exists('formatRupiah')) {
     {
         $numericValue = (float) $number;
 
-        return 'Rp '.number_format($numericValue, 00, '.', ',');
+        return 'Rp '.number_format($numericValue, 00, ',', '.');
     }
 }

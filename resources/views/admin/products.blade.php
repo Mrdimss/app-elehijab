@@ -138,10 +138,12 @@
 
     <script>
         $(document).ready(function () {
-            // STOP form submit agar tidak reload
-            // $('.form-search').on('submit', function (e) {
-            //     e.preventDefault();
-            // });
+
+            // === Fungsi Format Rupiah ===
+            function formatRupiahJS(angka) {
+                if (!angka) return "Rp 0";
+                return "Rp " + Number(angka).toLocaleString("id-ID");
+            }
 
             $('#search').on('keyup', function () {
                 let search = $(this).val();
@@ -166,50 +168,50 @@
                         } else {
                             data.forEach((item, index) => {
                                 rows += `
-                                    <tr>
-                                        <th>${item.id}</th>
-                                        <td class="pname">
-                                            <div class="image">
-                                                <img src="{{asset('uploads/products/thumbnails')}}/${item.image}"
-                                                    alt="${item.name}" class="image">
-                                            </div>
-                                            <div class="name">
-                                                <a href="#" class="body-title-2">${item.name}</a>
-                                                <div class="text-tiny mt-3">${item.slug}</div>
-                                            </div>
-                                        </td>
-                                        <td>IDR ${item.regular_price}</td>
-                                        <td>IDR ${item.sale_price}</td>
-                                        <td>${item.SKU}</td>
-                                        <td>${item.category ? item.category.name : '-'}</td>
-                                        <td>${item.brand ? item.brand.name : '-'}</td>
-                                        <td>${item.featured == 0 ? "No": "Yes"}</td>
-                                        <td>${item.stock_status}</td>
-                                        <td>${item.quantity}</td>
-                                        <td>
-                                            <div class="list-icon-function">
-                                                <a href="#" target="_blank">
-                                                    <div class="item eye">
-                                                        <i class="icon-eye"></i>
-                                                    </div>
-                                                </a>
-                                                <a href="/admin/product/${item.id}/edit">
-                                                    <div class="item edit">
-                                                        <i class="icon-edit-3"></i>
-                                                    </div>
-                                                </a>
-                                                <form action="/admin/product/${item.id}/delete"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <div class="item text-danger delete">
-                                                        <i class="icon-trash-2"></i>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                `;
+                                        <tr>
+                                            <th>${item.id}</th>
+                                            <td class="pname">
+                                                <div class="image">
+                                                    <img src="{{asset('uploads/products/thumbnails')}}/${item.image}"
+                                                        alt="${item.name}" class="image">
+                                                </div>
+                                                <div class="name">
+                                                    <a href="#" class="body-title-2">${item.name}</a>
+                                                    <div class="text-tiny mt-3">${item.slug}</div>
+                                                </div>
+                                            </td>
+                                            <td>${formatRupiahJS(item.regular_price)}</td>
+                                            <td>${formatRupiahJS(item.sale_price)}</td>
+                                            <td>${item.SKU}</td>
+                                            <td>${item.category ? item.category.name : '-'}</td>
+                                            <td>${item.brand ? item.brand.name : '-'}</td>
+                                            <td>${item.featured == 0 ? "No" : "Yes"}</td>
+                                            <td>${item.stock_status}</td>
+                                            <td>${item.quantity}</td>
+                                            <td>
+                                                <div class="list-icon-function">
+                                                    <a href="#" target="_blank">
+                                                        <div class="item eye">
+                                                            <i class="icon-eye"></i>
+                                                        </div>
+                                                    </a>
+                                                    <a href="/admin/product/${item.id}/edit">
+                                                        <div class="item edit">
+                                                            <i class="icon-edit-3"></i>
+                                                        </div>
+                                                    </a>
+                                                    <form action="/admin/product/${item.id}/delete"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <div class="item text-danger delete">
+                                                            <i class="icon-trash-2"></i>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    `;
                             });
                         }
 
