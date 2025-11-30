@@ -149,7 +149,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating my-3">
-                                        <input type="text" class="form-control new-address-field" name="landmark" value="{{ old('landmark')}}">
+                                        <input type="text" class="form-control new-address-field" name="landmark" value="{{ old('landmark') }}">
                                         <label for="landmark">Landmark</label>
                                         @error('landmark')
                                             <span class="text-danger">{{ $message }}</span>
@@ -393,7 +393,8 @@
         // Handle form submission
         document.querySelector('form[name="checkout-form"]').addEventListener('submit', function(e) {
             const addressIdSelected = document.querySelector('input[name="address_id"]:checked');
-            const newAddressFormVisible = document.getElementById('new-address-form').style.display !== 'none';
+            const newAddressFormVisible = document.getElementById('new-address-form') && 
+                                         document.getElementById('new-address-form').style.display !== 'none';
             
             if (addressIdSelected) {
                 // Remove required from new address fields when existing address is selected
@@ -406,6 +407,10 @@
                     if (field.name !== 'landmark') {
                         field.setAttribute('required', 'required');
                     }
+                });
+                // Clear any address_id value to ensure new address is used
+                document.querySelectorAll('input[name="address_id"]').forEach(radio => {
+                    radio.checked = false;
                 });
             }
         });

@@ -173,6 +173,7 @@ class CartController extends Controller
     public function place_an_order(Request $request)
     {
         $user_id = Auth::user()->id;
+        $address = null;
         
         // Check if user selected an existing address
         if ($request->has('address_id') && $request->address_id) {
@@ -181,13 +182,11 @@ class CartController extends Controller
             if (!$address) {
                 return back()->withErrors(['address_id' => 'Selected address not found.']);
             }
-        } else {
-            // Check for default address
-            $address = Address::where('user_id', $user_id)->where('isdefault', true)->first();
-        }
-
-        // If no address found, validate and create new one
-        if (! $address) {
+        } 
+        // Check if user is adding a new address (new address form fields are present)
+        elseif ($request->has('name') && $request->filled('name') && 
+                $request->has('address') && $request->filled('address')) {
+            // Validate new address fields
             $request->validate([
                 'name' => 'required|max:100',
                 'phone' => 'required|numeric|digits:12',
@@ -199,6 +198,10 @@ class CartController extends Controller
                 'landmark' => 'nullable',
             ]);
 
+            // Set previous default addresses to false
+            Address::where('user_id', $user_id)->where('isdefault', true)->update(['isdefault' => false]);
+
+            // Create new address and set as default
             $address = new Address;
             $address->name = $request->name;
             $address->phone = $request->phone;
@@ -207,11 +210,20 @@ class CartController extends Controller
             $address->city = $request->city;
             $address->address = $request->address;
             $address->locality = $request->locality;
-            $address->landmark = $request->landmark;
+            $address->landmark = $request->landmark ?: null;
             $address->country = 'Indonesia';
             $address->user_id = $user_id;
             $address->isdefault = true;
             $address->save();
+        }
+        // Fall back to default address if no selection and no new address
+        else {
+            $address = Address::where('user_id', $user_id)->where('isdefault', true)->first();
+        }
+
+        // If still no address found, return error
+        if (! $address) {
+            return back()->withErrors(['address' => 'Please select an address or add a new shipping address.']);
         }
 
         $this->setAmountforCheckout();
@@ -229,7 +241,7 @@ class CartController extends Controller
         $order->city = $address->city;
         $order->state = $address->state;
         $order->country = $address->country;
-        $order->landmark = $address->landmark;
+        $order->landmark = $address->landmark ?: null;
         $order->zip = $address->zip;
         $order->save();
 
