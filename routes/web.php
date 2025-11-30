@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
@@ -57,6 +58,15 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/account-order/cancel-order', [UserController::class, 'order_cancel'])->name('user.order.cancel');
     Route::get('/account-details', [UserController::class, 'profile'])->name('user.profile');
     Route::get('/account-wishlist', [UserController::class, 'index_wishlist'])->name('user.wishlist');
+    
+    // Address Routes
+    Route::get('/account-addresses', [AddressController::class, 'index'])->name('user.addresses');
+    Route::get('/account-addresses/create', [AddressController::class, 'create'])->name('user.addresses.create');
+    Route::post('/account-addresses', [AddressController::class, 'store'])->name('user.addresses.store');
+    Route::get('/account-addresses/{id}/edit', [AddressController::class, 'edit'])->name('user.addresses.edit');
+    Route::put('/account-addresses/{id}', [AddressController::class, 'update'])->name('user.addresses.update');
+    Route::delete('/account-addresses/{id}', [AddressController::class, 'destroy'])->name('user.addresses.destroy');
+    Route::post('/account-addresses/{id}/set-default', [AddressController::class, 'setDefault'])->name('user.addresses.set-default');
 });
 
 // Admin Routes

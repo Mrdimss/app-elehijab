@@ -160,16 +160,33 @@ class CartController extends Controller
             return redirect()->route('login');
         }
 
-        $address = Address::where('user_id', Auth::user()->id)->where('isdefault', 1)->first();
+        $addresses = Address::where('user_id', Auth::user()->id)
+            ->orderBy('isdefault', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        $defaultAddress = $addresses->where('isdefault', 1)->first();
 
-        return view('checkout', compact('address'));
+        return view('checkout', compact('addresses', 'defaultAddress'));
     }
 
     public function place_an_order(Request $request)
     {
         $user_id = Auth::user()->id;
-        $address = Address::where('user_id', $user_id)->where('isdefault', true)->first();
+        
+        // Check if user selected an existing address
+        if ($request->has('address_id') && $request->address_id) {
+            $address = Address::where('user_id', $user_id)->where('id', $request->address_id)->first();
+            
+            if (!$address) {
+                return back()->withErrors(['address_id' => 'Selected address not found.']);
+            }
+        } else {
+            // Check for default address
+            $address = Address::where('user_id', $user_id)->where('isdefault', true)->first();
+        }
 
+        // If no address found, validate and create new one
         if (! $address) {
             $request->validate([
                 'name' => 'required|max:100',
@@ -179,7 +196,7 @@ class CartController extends Controller
                 'city' => 'required',
                 'address' => 'required',
                 'locality' => 'required',
-                'landmark' => 'required',
+                'landmark' => 'nullable',
             ]);
 
             $address = new Address;
