@@ -44,7 +44,7 @@
                                     <th>Id</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Mobile</th>
+                                    <th>Phone</th>
                                     <th>Total Orders</th>
                                     <th>Orders</th>
                                 </tr>
@@ -62,13 +62,13 @@
                                                 <div class="text-tiny mt-3">{{ $user->utype }}</div>
                                             </div>
                                         </td>
-                                        <td>{{ $user->mobile }}</td>
                                         <td>{{ $user->email }}</td>
+                                        <td>{{ $user->mobile }}</td>
                                         <td>
                                             @if ($user->utype == 'ADM')
-                                                <a href="#" target="_blank">-</a>
+                                                <p target="_blank">-</p>
                                             @else
-                                                <a href="#" target="_blank">0</a>
+                                                <p target="_blank">{{ $user->orders_count }}</p>
                                             @endif
                                         </td>
                                         <td>
@@ -77,7 +77,7 @@
                                                 </div>
                                             @else
                                                 <div class="list-icon-function">
-                                                    <a href="#">
+                                                    <a href="{{ route('admin.user.orders', ['user_id' => $user->id]) }}">
                                                         <div class="item eye">
                                                             <i class="icon-file-text"></i>
                                                         </div>

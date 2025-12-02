@@ -28,7 +28,7 @@ class AddressController extends Controller
         $request->validate([
             'name' => 'required|max:100',
             'phone' => 'required|numeric|digits:12',
-            'zip' => 'required|numeric|digits:6',
+            'zip' => 'required|numeric|digits:5',
             'state' => 'required|max:100',
             'city' => 'required|max:100',
             'address' => 'required|max:255',
@@ -129,4 +129,3 @@ class AddressController extends Controller
         return redirect()->route('user.addresses')->with('status', 'Default address updated successfully!');
     }
 }
-

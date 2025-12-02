@@ -116,12 +116,12 @@
                                     </ul>
                                 </li>
 
-                                <li class="menu-item has-children">
-                                    <a href="javascript:void(0);" class="menu-item-button">
+                                <li class="menu-item">
+                                    <a href="{{ route('admin.orders') }}" class="menu-item-button">
                                         <div class="icon"><i class="icon-file-text"></i></div>
-                                        <div class="text">Order</div>
+                                        <div class="text">Orders</div>
                                     </a>
-                                    <ul class="sub-menu">
+                                    {{-- <ul class="sub-menu">
                                         <li class="sub-menu-item">
                                             <a href="{{route('admin.orders')}}" class="">
                                                 <div class="text">Orders</div>
@@ -132,7 +132,7 @@
                                                 <div class="text">Order tracking</div>
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul> --}}
                                 </li>
                                 <li class="menu-item">
                                     <a href="{{ route('admin.slides') }}" class="">
@@ -209,7 +209,6 @@
                                     <div class="box-content-search">
                                         <div id="loading" style="display:none; text-align:center;">Searching...</div>
                                         <ul id="box-content-search"></ul>
-                                        </ul>
                                     </div>
                                 </form>
 
@@ -300,7 +299,7 @@
                                         <ul class="dropdown-menu dropdown-menu-end has-content"
                                             aria-labelledby="dropdownMenuButton3">
                                             <li>
-                                                <a href="#" class="user-item">
+                                                <a href="{{ route('admin.settings') }}" class="user-item">
                                                     <div class="icon">
                                                         <i class="icon-user"></i>
                                                     </div>
@@ -308,12 +307,12 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#" class="user-item">
+                                                <a href="{{ route('admin.contacts') }}" class="user-item">
                                                     <div class="icon">
                                                         <i class="icon-mail"></i>
                                                     </div>
                                                     <div class="body-title-2">Inbox</div>
-                                                    <div class="number">27</div>
+                                                    <div class="number">{{ $messagesCount }}</div>
                                                 </a>
                                             </li>
                                             <li>
@@ -333,12 +332,14 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="login.html" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-log-out"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Log out</div>
-                                                </a>
+                                                <form method="POST" action="{{route('logout')}}" id="logout-form">
+                                                    @csrf
+                                                    <a href="{{route('logout')}}" class="user-item"
+                                                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                                        <div class="icon"><i class="icon-log-out"></i></div>
+                                                        <div class="body-title-2">Logout</div>
+                                                    </a>
+                                                </form>
                                             </li>
                                         </ul>
                                     </div>

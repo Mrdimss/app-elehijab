@@ -58,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/account-order/cancel-order', [UserController::class, 'order_cancel'])->name('user.order.cancel');
     Route::get('/account-details', [UserController::class, 'profile'])->name('user.profile');
     Route::get('/account-wishlist', [UserController::class, 'index_wishlist'])->name('user.wishlist');
-    
+
     // Address Routes
     Route::get('/account-addresses', [AddressController::class, 'index'])->name('user.addresses');
     Route::get('/account-addresses/create', [AddressController::class, 'create'])->name('user.addresses.create');
@@ -130,6 +130,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
     // Admin - Users Management
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/admin/user/{user_id}/orders', [AdminController::class, 'user_orders'])->name('admin.user.orders');
     Route::get('/admin/user/search', [AdminController::class, 'users_search'])->name('admin.user.search');
 
     // Admin Setting Routes

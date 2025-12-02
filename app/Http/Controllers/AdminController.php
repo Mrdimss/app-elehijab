@@ -755,9 +755,19 @@ class AdminController extends Controller
 
     public function users()
     {
-        $users = User::orderBy('id', 'ASC')->paginate(12);
+        $users = User::withCount('orders')
+            ->orderBy('id', 'ASC')
+            ->paginate(12);
 
         return view('admin.users', compact('users'));
+    }
+
+    public function user_orders($user_id)
+    {
+        $user = User::find($user_id);
+        $orders = Order::where('user_id', $user_id)->orderBy('created_at', 'DESC')->paginate(12);
+
+        return view('admin.user-orders', compact('user', 'orders'));
     }
 
     public function settings()

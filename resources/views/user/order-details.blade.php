@@ -60,7 +60,7 @@
 
         .table-bordered>:not(caption)>*>* {
             border-width: inherit;
-            line-height: 32px;
+            height: 50px;
             font-size: 14px;
             border: 1px solid #e1e1e1;
             vertical-align: middle;
@@ -77,8 +77,24 @@
             overflow: hidden;
         }
 
+        .table-striped td:nth-child(1),
         .table-striped td:nth-child(1) {
             min-width: 250px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .table-striped td:nth-child(2),
+        .table-striped th:nth-child(2) {
+            min-width: 150px;
+            padding-bottom: 7px;
+        }
+
+        .table-striped td:nth-child(6),
+        .table-striped th:nth-child(6) {
+            min-width: 150px;
             padding-bottom: 7px;
         }
 
@@ -163,7 +179,7 @@
                             <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
+                                        <th class="text-center">Name</th>
                                         <th class="text-center">Price</th>
                                         <th class="text-center">Quantity</th>
                                         <th class="text-center">SKU</th>
@@ -171,7 +187,6 @@
                                         <th class="text-center">Brand</th>
                                         <th class="text-center">Options</th>
                                         <th class="text-center">Return Status</th>
-                                        <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -194,13 +209,6 @@
                                             <td class="text-center">{{$item->product->brand->name}}</td>
                                             <td class="text-center">{{$item->options}}</td>
                                             <td class="text-center">{{$item->rstatus == 0 ? "No" : "Yes"}}</td>
-                                            <td class="text-center">
-                                                <div class="list-icon-function view-icon">
-                                                    <div class="item eye">
-                                                        <i class="icon-eye"></i>
-                                                    </div>
-                                                </div>
-                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

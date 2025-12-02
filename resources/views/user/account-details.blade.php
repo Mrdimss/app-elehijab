@@ -32,7 +32,7 @@
                                         <div class="form-floating my-3">
                                             <input type="text" class="form-control" placeholder="Mobile Number"
                                                 name="mobile" value="{{ $user->mobile }}" required="">
-                                            <label for="mobile">Mobile Number</label>
+                                            <label for="mobile">Phone Number</label>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -43,12 +43,12 @@
                                         </div>
                                     </div>
                                     <div class="row align-items-end">
-                                        <div class="my-2 col">
+                                        <div class="my-2 col-auto">
                                             <a href="#">
                                                 <button type="submit" class="btn btn-primary rounded-3">Change Password</button>
                                             </a>
                                         </div>
-                                        <div class="my-2 col">
+                                        <div class="my-2 col-auto">
                                             <button type="submit" class="btn btn-primary rounded-3">Save Changes</button>
                                         </div>
                                     </div>

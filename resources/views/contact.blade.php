@@ -8,14 +8,14 @@
 </style>
     <main class="pt-90">
         <div class="mb-4 pb-4"></div>
-        <section class="contact-us container">
+        {{-- <section class="contact-us container">
             <div class="mw-930">
                 <h2 class="page-title">CONTACT US</h2>
             </div>
         </section>
 
-        <hr class="mt-2 text-secondary " />
-        <div class="mb-4 pb-4"></div>
+        <hr class="mt-2 text-secondary " /> --}}
+        {{-- <div class="mb-4 pb-4"></div> --}}
 
         <section class="contact-us container">
             <div class="mw-930">
