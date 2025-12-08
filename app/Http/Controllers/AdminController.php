@@ -777,6 +777,45 @@ class AdminController extends Controller
         return view('admin.settings', compact('user'));
     }
 
+    public function setting_update(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'mobile' => 'required',
+            'image' => 'mimes:png,jpg,jpeg|max:3072',
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->mobile = $request->mobile;
+
+        if ($request->hasFile('image')) {
+            if (File::exists(public_path('uploads/users').'/'.$user->image)) {
+                File::delete(public_path('uploads/users').'/'.$user->image);
+            }
+            $image = $request->file('image');
+            $file_extention = $request->file('image')->extension();
+            $file_name = Carbon::now()->timestamp.'.'.$file_extention;
+            $this->GenerateUserThumbnailsImage($image, $file_name);
+            $user->image = $file_name;
+        }
+        $user->save();
+
+        return redirect()->route('admin.settings')->with('status', 'Profile has been updated succesfully!');
+    }
+
+    public function GenerateUserThumbnailsImage($image, $imageName)
+    {
+        $destinationPath = public_path('uploads/users');
+        $img = Image::read($image->path());
+        $img->cover(400, 690, 'top');
+        $img->resize(400, 690, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save($destinationPath.'/'.$imageName);
+    }
+
     public function search(Request $request)
     {
         $query = $request->input('query');

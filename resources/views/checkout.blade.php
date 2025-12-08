@@ -220,7 +220,7 @@
                                 <div class="col-md-6">
                                     <div class="form-floating my-3">
                                         <input type="text" class="form-control" name="locality" required value="{{ old('locality') }}">
-                                        <label for="locality">Road Name, Area, Colony *</label>
+                                        <label for="locality">Area *</label>
                                         @error('locality')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror

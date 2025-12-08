@@ -43,11 +43,11 @@
                                         </div>
                                     </div>
                                     <div class="row align-items-end">
-                                        <div class="my-2 col-auto">
+                                        {{-- <div class="my-2 col-auto">
                                             <a href="#">
                                                 <button type="submit" class="btn btn-primary rounded-3">Change Password</button>
                                             </a>
-                                        </div>
+                                        </div> --}}
                                         <div class="my-2 col-auto">
                                             <button type="submit" class="btn btn-primary rounded-3">Save Changes</button>
                                         </div>

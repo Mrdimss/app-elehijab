@@ -59,8 +59,12 @@
                                         <th>{{ $coupon->id }}</th>
                                         <td>{{ $coupon->code }}</td>
                                         <td>{{ $coupon->type }}</td>
-                                        <td>{{ $coupon->value }}</td>
-                                        <td>IDR {{ $coupon->cart_value }}</td>
+                                        @if ($coupon->type == 'percent')
+                                            <td>{{ $coupon->value }} %</td>
+                                        @else
+                                            <td>{{ formatRupiah($coupon->value) }}</td>
+                                        @endif
+                                        <td>{{ formatRupiah($coupon->cart_value) }}</td>
                                         <td>{{ $coupon->expiry_date }}</td>
                                         <td>
                                             <div class="list-icon-function">

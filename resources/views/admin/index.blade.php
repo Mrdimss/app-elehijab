@@ -15,7 +15,7 @@
                                         <i class="icon-shopping-bag"></i>
                                     </div>
                                     <div>
-                                        <h4>{{ $dashboardDatas->Total }}</h4>
+                                        <h4>{{ $dashboardDatas->TotalOrdered + $dashboardDatas->TotalDelivered }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -25,7 +25,7 @@
                                         <p style="color: #2275fc; font-weight: 700;">Rp</p>
                                     </div>
                                     <div>
-                                        <h4>{{ rupiah($dashboardDatas->TotalAmount) }}</h4>
+                                        <h4>{{ rupiah($dashboardDatas->TotalOrderedAmount + $dashboardDatas->TotalDeliveredAmount) }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -135,7 +135,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap10">
-                                <p style="font-weight: 700; font-size: 1.6em;">{{ formatRupiah($totalAmount) }}</p>
+                                <p style="font-weight: 700; font-size: 1.6em;">{{ formatRupiah($totalOrderedAmount + $totalDeliveredAmount) }}</p>
                             </div>
                         </div>
                         <div>

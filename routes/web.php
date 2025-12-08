@@ -135,6 +135,7 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
     // Admin Setting Routes
     Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
+    Route::put('/admin/setting/update', [AdminController::class, 'setting_update'])->name('admin.setting.update');
 
     // Admin Search Product
     Route::get('/admin/product/search', [AdminController::class, 'search'])->name('admin.search');

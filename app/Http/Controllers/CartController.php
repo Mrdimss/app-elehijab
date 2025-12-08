@@ -164,7 +164,7 @@ class CartController extends Controller
             ->orderBy('isdefault', 'desc')
             ->orderBy('created_at', 'desc')
             ->get();
-        
+
         $defaultAddress = $addresses->where('isdefault', 1)->first();
 
         return view('checkout', compact('addresses', 'defaultAddress'));
@@ -174,17 +174,17 @@ class CartController extends Controller
     {
         $user_id = Auth::user()->id;
         $address = null;
-        
+
         // Check if user selected an existing address
         if ($request->has('address_id') && $request->address_id) {
             $address = Address::where('user_id', $user_id)->where('id', $request->address_id)->first();
-            
-            if (!$address) {
+
+            if (! $address) {
                 return back()->withErrors(['address_id' => 'Selected address not found.']);
             }
-        } 
+        }
         // Check if user is adding a new address (new address form fields are present)
-        elseif ($request->has('name') && $request->filled('name') && 
+        elseif ($request->has('name') && $request->filled('name') &&
                 $request->has('address') && $request->filled('address')) {
             // Validate new address fields
             $request->validate([

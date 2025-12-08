@@ -24,13 +24,11 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <h5 class="mb-3">Our Mission</h5>
-                            <p class="mb-3">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat.</p>
+                            <p class="mb-3">Menghadirkan desain simple-elegan yang mudah dipadukan. Mendorong kepercayaan diri muslimah lewat gaya yang sopan dan modern. Menjaga identitas brand yang rapi, elegan, dan mudah dikenali.</p>
                         </div>
                         <div class="col-md-6">
                             <h5 class="mb-3">Our Vision</h5>
-                            <p class="mb-3">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                consequat.</p>
+                            <p class="mb-3">Menjadi brand hijab modern yang anggun, simple, dan percaya diri.</p>
                         </div>
                     </div>
                 </div>

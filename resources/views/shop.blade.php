@@ -186,7 +186,7 @@
             <div id="accordion-filter-price" class="accordion-collapse collapse show border-0"
               aria-labelledby="accordion-heading-price" data-bs-parent="#price-filters">
               <input class="price-range-slider" type="text" name="price_range" value="" data-slider-min="1000"
-                data-slider-max="500000" data-slider-step="5000" data-slider-value="[{{$min_price}},{{$max_price}}]" data-currency="Rp " />
+                data-slider-max="100000" data-slider-step="5000" data-slider-value="[{{$min_price}},{{$max_price}}]" data-currency="Rp " />
               <div class="price-range__info d-flex align-items-center mt-2">
                 <div class="me-auto">
                   <span class="text-secondary">Min : </span>
@@ -194,7 +194,7 @@
                 </div>
                 <div>
                   <span class="text-secondary">Max : </span>
-                  <span class="price-range__max">Rp 500.000</span>
+                  <span class="price-range__max">Rp 100.000</span>
                 </div>
               </div>
             </div>
@@ -380,7 +380,7 @@
                     @if ($product->sale_price)
                         <s class="reg-price">{{ formatRupiah($product->regular_price) }} </s> {{ formatRupiah($product->sale_price) }}
                     @else
-                        {{ formatRupiah($product->sale_price) }}
+                        {{ formatRupiah($product->regular_price) }}
                     @endif
                   </span>
                 </div>

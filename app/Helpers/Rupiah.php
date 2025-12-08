@@ -13,6 +13,6 @@ if (! function_exists('rupiah')) {
     {
         $numericValue = (float) $number;
 
-        return ''.number_format($numericValue, 00, '.', ',');
+        return ''.number_format($numericValue, 00, ',', '.');
     }
 }
