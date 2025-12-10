@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -246,12 +247,21 @@ class CartController extends Controller
         $order->save();
 
         foreach (Cart::instance('cart')->content() as $item) {
+            $product = Product::find($item->id);
+
+            if ($product->quantity < $item->qty) {
+                return back()->with('error', 'Product '.$product->name.' is out of stock.');
+            }
+
             $orderItem = new OrderItem;
             $orderItem->product_id = $item->id;
             $orderItem->order_id = $order->id;
             $orderItem->price = $item->price;
             $orderItem->quantity = $item->qty;
             $orderItem->save();
+
+            // Kurangi stok produk
+            $product->decrement('quantity', $item->qty);
         }
 
         if ($request->mode == 'card') {

@@ -231,7 +231,7 @@
                 </div>
                 <div class="slide-split_media position-relative">
                   <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                    <img loading="lazy" src="{{ asset('uploads/products/1763460213-1.jpg') }}" width="630" height="450"
+                    <img loading="lazy" src="{{ asset('assets/images/shop/IMG_2950.jpg') }}" width="630" height="450"
                       alt="Women's accessories" class="slideshow-bg__img object-fit-cover" />
                   </div>
                 </div>
@@ -252,7 +252,7 @@
                 </div>
                 <div class="slide-split_media position-relative">
                   <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                    <img loading="lazy" src="{{ asset('uploads/products/1763460885-4.jpg') }}" width="630" height="450"
+                    <img loading="lazy" src="{{ asset('assets/images/shop/IMG_2931.jpg') }}" width="630" height="450"
                       alt="Women's accessories" class="slideshow-bg__img object-fit-cover" />
                   </div>
                 </div>
@@ -273,7 +273,7 @@
                 </div>
                 <div class="slide-split_media position-relative">
                   <div class="slideshow-bg" style="background-color: #f5e6e0;">
-                    <img loading="lazy" src="{{ asset('uploads/products/1763460454-8.jpg') }}" width="630" height="450"
+                    <img loading="lazy" src="{{ asset('assets/images/shop/IMG_2904.jpg') }}" width="630" height="450"
                       alt="Women's accessories" class="slideshow-bg__img object-fit-cover" />
                   </div>
                 </div>

@@ -48,9 +48,21 @@ class UserController extends Controller
     public function order_cancel(Request $request)
     {
         $order = Order::find($request->order_id);
-        $order->status = 'canceled';
+        $newStatus = 'canceled';
+        $order->status = $newStatus;
         $order->canceled_date = Carbon::now();
         $order->save();
+
+        $orderItems = OrderItem::where('order_id', $order->id)->get();
+
+        // KEMBALIKAN STOK KETIKA DIBATALKAN
+        if ($order->status === 'canceled') {
+            foreach ($orderItems as $item) {
+                $product = $item->product;
+                $product->quantity += $item->quantity;
+                $product->save();
+            }
+        }
 
         return back()->with('status', 'Order cancelled!');
     }

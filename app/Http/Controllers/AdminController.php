@@ -588,7 +588,6 @@ class AdminController extends Controller
     public function update_order_status(Request $request)
     {
         $order = Order::findOrFail($request->order_id);
-        $oldStatus = $order->status;
         $newStatus = $request->order_status;
 
         $order->status = $newStatus;
@@ -603,20 +602,16 @@ class AdminController extends Controller
 
         $orderItems = OrderItem::where('order_id', $order->id)->get();
 
-        // ===================================================
-        // 1. KURANGI STOK KETIKA DELIVERED
-        // ===================================================
-        if ($newStatus === 'delivered' && $oldStatus !== 'delivered') {
-            foreach ($orderItems as $item) {
-                $product = $item->product;
-                $product->quantity -= $item->quantity;
-                $product->save();
-            }
-        }
+        // KURANGI STOK KETIKA DITERIMA
+        // if ($newStatus === 'delivered' && $oldStatus !== 'delivered') {
+        //     foreach ($orderItems as $item) {
+        //         $product = $item->product;
+        //         $product->quantity -= $item->quantity;
+        //         $product->save();
+        //     }
+        // }
 
-        // ===================================================
-        // 2. KEMBALIKAN STOK KETIKA DIBATALKAN
-        // ===================================================
+        // KEMBALIKAN STOK KETIKA DIBATALKAN
         if ($newStatus === 'canceled') {
             foreach ($orderItems as $item) {
                 $product = $item->product;
